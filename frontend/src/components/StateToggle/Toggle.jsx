@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './Toggle.css'; 
+ 
 
 const Toggle = ({ handleToggleChange }) => {
     const [selected, setSelected] = useState('Live');
@@ -10,7 +12,7 @@ const Toggle = ({ handleToggleChange }) => {
     };
 
     return (
-        <div>
+        <div className="stateToggle">
             <div style={{ display: 'flex' }}>
                 <div
                     onClick={() => handleClick('Live')}
