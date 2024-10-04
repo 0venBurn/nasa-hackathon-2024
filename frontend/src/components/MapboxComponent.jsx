@@ -1,14 +1,12 @@
-// src/components/MapboxComponent.jsx
 import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Mapbox Component
 const MapboxComponent = () => {
-  const mapContainerRef = useRef(); // Reference to the map container
+  const mapContainerRef = useRef(); 
 
   useEffect(() => {
-    // Set Mapbox access token from environment variable
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN; 
 
     // Initialize the map

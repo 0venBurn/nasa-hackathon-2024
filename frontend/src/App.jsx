@@ -5,7 +5,7 @@ import MapboxComponent from './components/MapboxComponent';
 function App() {
   return (
     <div>
-      <h1>Mapbox Example</h1>
+      <h1>Mapbox</h1>
       <MapboxComponent />
     </div>
   );
