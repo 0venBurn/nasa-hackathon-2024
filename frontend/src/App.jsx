@@ -8,7 +8,6 @@ import './components/mapbox/mapbox.css';
 function App() {
   return (
     <div>
-      <h1>Mapbox</h1>
       <MapboxComponent />
     </div>
   );
