@@ -1,7 +1,4 @@
 import requests
-from flask import Flask
-
-app = Flask(__name__)
 
 
 def send_simple_message():
@@ -11,14 +8,10 @@ def send_simple_message():
         data={
             "from": "Excited User <mailgun@sandboxb0307974dbfe4b41a863b287f45d506e.mailgun.org>",
             "to": [
-                "bar@example.com",
+                "evanbyrnecode@gmail.com"
                 "YOU@sandboxb0307974dbfe4b41a863b287f45d506e.mailgun.org",
             ],
             "subject": "Hello",
             "text": "Testing some Mailgun awesomeness!",
         },
     )
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
