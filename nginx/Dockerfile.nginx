@@ -1,0 +1,11 @@
+FROM nginx:alpine
+
+COPY fullchain.pem /etc/ssl/fullchain.pem
+COPY privkey.pem /etc/ssl/privkey.pem
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+EXPOSE 443
+
+CMD ["nginx", "-g", "daemon off;"]
