@@ -1,33 +1,32 @@
 // src/components/MapboxComponent.jsx
 import React, { useEffect, useRef } from 'react';
-import mapboxgl from 'mapbox-gl'; // Ensure you have this installed
-import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox CSS
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
+// Mapbox Component
 const MapboxComponent = () => {
-  const mapContainerRef = useRef(); // Reference for the map container
-  const mapRef = useRef(); // Reference for the map instance
+  const mapContainerRef = useRef(); // Reference to the map container
 
   useEffect(() => {
-    // Set your Mapbox access token
-    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN; // Use environment variable for security
+    // Set Mapbox access token from environment variable
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN; 
 
-    // Initialize the map instance
-    mapRef.current = new mapboxgl.Map({
-      container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/streets-v11', // Choose a Mapbox style
+    // Initialize the map
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current, // Container ID
+      style: 'mapbox://styles/mapbox/streets-v11', // Map style
       center: [-74.5, 40], // Starting position [lng, lat]
       zoom: 9, // Starting zoom level
     });
 
-    // Cleanup on unmount
-    return () => mapRef.current.remove();
-  }, []); // Empty dependency array ensures this runs once on mount
+    // Cleanup the map instance on unmount
+    return () => map.remove();
+  }, []);
 
   return (
     <div
-      ref={mapContainerRef} // Attach the ref to the div
+      ref={mapContainerRef}
       style={{ height: '500px', width: '100%' }} // Set height and width
-      className="map-container" // Optional: for additional CSS styling
     />
   );
 };
