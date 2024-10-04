@@ -1,6 +1,6 @@
 // src/App.js
 import React from "react";
-import MapboxComponent from "./components/MapboxComponent";
+import MapboxComponent from "./components/mapbox/MapboxComponent";
 import Toggle from "./components/StateToggle/Toggle";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         <Toggle  handleToggleChange={handleToggleChange}/>
       </div>
       <div>
-        <h1>Mapbox Example</h1>
+        <h1>Mapbox</h1>
         <MapboxComponent />
         <></>
       </div>
