@@ -1,7 +1,7 @@
 // src/components/MapboxComponent.js
 import React, { useState } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import './mapbox.css';
 
 function MapboxComponent() {
   
