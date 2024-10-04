@@ -1,6 +1,6 @@
 // src/App.js
 import React from 'react';
-import MapboxComponent from './components/MapboxComponent';
+import MapboxComponent from './components/mapbox/MapboxComponent';
 
 function App() {
   return (
