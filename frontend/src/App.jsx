@@ -1,13 +1,25 @@
 // src/App.js
-import React from 'react';
-import MapboxComponent from './components/MapboxComponent';
+import React from "react";
+import MapboxComponent from "./components/MapboxComponent";
+import Toggle from "./components/StateToggle/Toggle";
 
 function App() {
+
+  const handleToggleChange = (selection) => {
+    console.log(`Selected ${selection}`)
+  }
+
   return (
-    <div>
-      <h1>Mapbox Example</h1>
-      <MapboxComponent />
-    </div>
+    <>
+      <div>
+        <Toggle  handleToggleChange={handleToggleChange}/>
+      </div>
+      <div>
+        <h1>Mapbox Example</h1>
+        <MapboxComponent />
+        <></>
+      </div>
+    </>
   );
 }
 
