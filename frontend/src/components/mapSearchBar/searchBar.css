@@ -1,0 +1,48 @@
+/* Search Bar Component Styles */
+.mapboxgl-ctrl-geocoder {
+    position: absolute;
+    top: 10px; /* Adjust to place it higher or lower */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center alignment */
+    width: 300px; /* Set the width of the search bar */
+    z-index: 1; /* Ensure it is on top of the map */
+    background: white; /* Background color */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    padding: 5px; /* Padding for spacing */
+  }
+  
+  /* Style the input field */
+  .mapboxgl-ctrl-geocoder input {
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Padding for the input */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding and border in width */
+  }
+  
+  /* Style the search results dropdown */
+  .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder-results {
+    background: white; /* Background for dropdown */
+    border-radius: 4px; /* Rounded corners */
+    max-height: 200px; /* Max height for dropdown */
+    overflow-y: auto; /* Scroll if results overflow */
+    z-index: 1000; /* Ensure it is above other elements */
+  }
+  
+  /* Style individual search result items */
+  .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder-result {
+    padding: 10px; /* Padding for each item */
+    cursor: pointer; /* Pointer cursor for interactivity */
+  }
+  
+  /* Hover effect for results */
+  .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder-result:hover {
+    background: #f0f0f0; /* Light gray on hover */
+  }
+  
+  /* Style the clear button */
+  .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder-clear {
+    display: none; /* Hide clear button initially */
+  }
+  
