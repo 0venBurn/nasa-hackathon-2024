@@ -8,6 +8,9 @@ import EmailBoxComponent from "./components/emailBox/emailBoxComponent";
 import DateBox from "./components/dateBox/dateBox";
 import CloudCoverage from './components/LeadTime/LeadTime';
 import LeadTime from './components/LeadTime/LeadTime';
+import MetadataDisplay from './components/metadataDisplay/metadataDisplay';
+
+
 function App() {
   const mapRef = useRef(null);
   const handleToggleChange = (selection) => {
@@ -33,6 +36,7 @@ function App() {
           <EmailBoxComponent />
           <p>Lead Time</p>
           <LeadTime />
+          <MetadataDisplay />
         </div>
       </div>
       <div id="mapContainer">
