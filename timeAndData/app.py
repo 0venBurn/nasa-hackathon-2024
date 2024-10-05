@@ -141,18 +141,24 @@ def next_overhead_time():
     geometry = BuildSquare(lat, lon, delta)
     bbox = bounds(geometry)
 
-    # Perform the STAC search with a recent date range and limit
+    # Calculate the date range: from two weeks ago to today
+    today = datetime.utcnow()
+    two_weeks_ago = today - timedelta(weeks=2)
+    date_range = f"{two_weeks_ago.strftime('%Y-%m-%d')}/{today.strftime('%Y-%m-%d')}"
+
+    # Perform the STAC search without filters to check availability
     LandsatSearch = LandsatSTAC.search(
         bbox=bbox,
-        datetime="2023-09-01/2024-10-01",  # Use a dynamic recent date range as needed
-        query=['eo:cloud_cover95'],  
         collections=["landsat-c2l2-sr"],
-        limit=20  # Limit the number of results to process
+        datetime=date_range
     )
 
     # Convert search results to a list of dictionaries
     Landsat_items = [i.to_dict() for i in LandsatSearch.items()]
 
+    # Debug: Print the search results to check what's returned
+    print(f"Found {len(Landsat_items)} items in the search results.")
+    
     # Initialize variables to store the most recent scenes' datetime
     latest_landsat8_datetime = None
     latest_landsat9_datetime = None
@@ -171,6 +177,10 @@ def next_overhead_time():
         if latest_landsat8_datetime and latest_landsat9_datetime:
             break
 
+    # Debug: Print the results for inspection
+    print(f"Landsat 8 next passover: {latest_landsat8_datetime}")
+    print(f"Landsat 9 next passover: {latest_landsat9_datetime}")
+
     # Prepare the response with the next passover times
     response = {
         "landsat8NextPassover": latest_landsat8_datetime,
@@ -182,4 +192,3 @@ def next_overhead_time():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
