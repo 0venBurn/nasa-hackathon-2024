@@ -18,6 +18,16 @@ const MapboxComponent = () => {
       zoom: 9, // Starting zoom level
     });
 
+    map.on('style.load', function () {
+      map.on('click', function (e) {
+        var coordinates = e.lngLat;
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(coordinates)
+          .addTo(map);
+      });
+    });
+
     // Cleanup the map instance on unmount
     return () => map.remove();
   }, []);
