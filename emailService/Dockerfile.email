@@ -1,0 +1,26 @@
+# Build stage
+FROM python:3.12 AS build-stage
+
+WORKDIR /app
+
+COPY model_service/requirements.txt .
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY model_service .
+
+# Production stage
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY --from=build-stage /app/requirements.txt ./
+
+RUN pip install -r requirements.txt
+
+COPY --from=build-stage /app /app
+
+EXPOSE 5000
+
+CMD ["gunicorn", "-c", "gunicorn_config.py", "app:app"]
