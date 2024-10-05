@@ -136,13 +136,14 @@ function App() {
             coordinates={coordinates} 
             setCoordinates={setCoordinates}
           />
+          <MetadataDisplay coordinates={coordinates} dateRange={dateRange} /> 
           <DownloadButton onClick={handleDownload}/>
         </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
           <p>Lead Time</p>
           <LeadTime />
-          <MetadataDisplay coordinates={coordinates} dateRange={dateRange} /> 
+          
         </div>
       </div>
       <div id="mapContainer">
