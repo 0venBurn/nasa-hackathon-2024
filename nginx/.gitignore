@@ -1,3 +1,2 @@
 #server https certs
-fullchain.pem
-privkey.pem
+ssl/

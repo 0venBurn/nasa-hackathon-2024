@@ -22,6 +22,8 @@ def requestEmail():
         'time': time
     }), 200
     
+@app.route('/info', methods=['POST'])
+    
 
 
 def send_simple_message():
