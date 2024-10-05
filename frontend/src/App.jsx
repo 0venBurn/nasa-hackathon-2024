@@ -18,6 +18,8 @@ import CoordinateBar from './components/CoordinateBar/CoordinateBar';
 
 import MetadataDisplay from './components/metadataDisplay/metadataDisplay';
 import UserLocation from './components/userLocation/userLocation';
+import DownloadButton from './components/downloadButton/downloadButton';
+
 
 
 function App() {
@@ -129,6 +131,10 @@ function App() {
     drawGridAroundPoint(mapRef.current, x, y, randomArray);
   };
 
+  const handleDownload = () => {
+    console.log('Download started...');
+    // placeholder xoxo
+  };
 
 
   return (
@@ -143,6 +149,7 @@ function App() {
             coordinates={coordinates} 
             setCoordinates={setCoordinates}
           />
+          <DownloadButton onClick={handleDownload}/>
         </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
