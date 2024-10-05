@@ -33,6 +33,62 @@ function App() {
     }
   };
 
+  function drawGridAroundPoint(map, lng, lat) {
+    const latInMeters = 15 / 111320; // 15 meters in degrees of latitude
+    const lngInMeters = 15 / (111320 * Math.cos(lat * (Math.PI / 180))); // Adjust for latitude
+
+    // Generate a 3x3 grid of squares around the clicked point
+    const offsets = [
+      [-lngInMeters, latInMeters],  [0, latInMeters],  [lngInMeters, latInMeters],
+      [-lngInMeters, 0],            [0, 0],            [lngInMeters, 0],
+      [-lngInMeters, -latInMeters], [0, -latInMeters], [lngInMeters, -latInMeters],
+    ];
+
+    const allSquares = offsets.map(([offsetLng, offsetLat]) => generateSquare(lng + offsetLng, lat + offsetLat));
+
+    const squarePolygons = {
+      type: 'FeatureCollection',
+      features: allSquares.map((square) => ({
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [square],
+        },
+      })),
+    };
+
+    map.addSource('square-source', {
+      type: 'geojson',
+      data: squarePolygons,
+    });
+
+    map.addLayer({
+      id: 'square-layer',
+      type: 'fill',
+      source: 'square-source',
+      layout: {},
+      paint: {
+        'fill-color': '#ff0000',
+        'fill-opacity': 0.5,
+      },
+    });
+  };
+
+  // Helper function to generate a single square around a given center
+  const generateSquare = (lng, lat) => {
+    const latInMeters = 15 / 111320; // 15 meters in degrees of latitude
+    const lngInMeters = 15 / (111320 * Math.cos(lat * (Math.PI / 180))); // Adjust for latitude
+
+    return [
+      [lng - lngInMeters / 2, lat - latInMeters / 2], // Bottom left
+      [lng + lngInMeters / 2, lat - latInMeters / 2], // Bottom right
+      [lng + lngInMeters / 2, lat + latInMeters / 2], // Top right
+      [lng - lngInMeters / 2, lat + latInMeters / 2], // Top left
+      [lng - lngInMeters / 2, lat - latInMeters / 2], // Closing the square
+    ];
+  };
+
+
   const handleLocationSubmit = (location) => {
     setUserCoordinates(location); // Update user coordinates on submit
     setCoordinates(`${location.lng}, ${location.lat}`); // Update coordinates in the input field
@@ -71,7 +127,9 @@ function App() {
         <MapboxComponent 
           mapRef={mapRef} 
           userCoordinates={userCoordinates} 
-          coordinates={coordinates} setCoordinates={setCoordinates}/>  
+          coordinates={coordinates} setCoordinates={setCoordinates}
+          drawGridAroundPoint={drawGridAroundPoint}
+        />  
       </div>
     </>
   );
