@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import './emailBox.css'; // Import any required CSS
 
-const emailBoxComponent = () => {
+const EmailBoxComponent = () => {
   const [email, setEmail] = useState('');
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -28,7 +28,7 @@ const emailBoxComponent = () => {
   };
 
   return (
-    <div className="email-box-container">
+    <div className="email-box">
       <h2>Subscribe to our newsletter</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -40,10 +40,10 @@ const emailBoxComponent = () => {
         />
         <button type="submit">Subscribe</button>
       </form>
-      {success && <p className="success-message">Thank you for subscribing!</p>}
-      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success">Thank you for subscribing!</p>} {/* Use existing class names */}
+      {error && <p className="error">{error}</p>} {/* Use existing class names */}
     </div>
   );
 };
 
-export default emailBoxComponent;
+export default EmailBoxComponent;

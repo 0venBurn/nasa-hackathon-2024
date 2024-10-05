@@ -6,22 +6,22 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .email-box h2 {
+}
+
+.email-box h2 {
     text-align: center;
     margin-bottom: 1rem;
-  }
-  
-  .email-box input {
+}
+
+.email-box input {
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-  }
-  
-  .email-box button {
+}
+
+.email-box button {
     width: 100%;
     padding: 0.5rem;
     background-color: #4CAF50;
@@ -29,19 +29,18 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  .email-box button:hover {
+}
+
+.email-box button:hover {
     background-color: #45a049;
-  }
-  
-  .error {
+}
+
+.error {
     color: red;
     text-align: center;
-  }
-  
-  .success {
+}
+
+.success {
     color: green;
     text-align: center;
-  }
-  
+}
