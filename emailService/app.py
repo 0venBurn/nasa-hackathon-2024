@@ -1,6 +1,8 @@
 
 from flask import Flask, request, jsonify
 import requests
+from datetime import date, timedelta
+from timezonefinder import TimezoneFinder
 
 app = Flask(__name__)
 
@@ -8,12 +10,21 @@ app = Flask(__name__)
 def requestEmail():
     data = request.get_json()
     
-    if 'email' not in data or 'time' not in data:
-        return jsonify({'error': 'Email and time fields are required'}), 400
+    if 'email' not in data or 'time' not in data or 'location' not in data:
+        return jsonify({'error': 'Argument is missing'}), 400
     
     email = data['email']
     time = data['time']
-
+    location = data['location']
+    
+    satArrive = request("landsat.co/data/satArrive", params={'location': location})
+    
+    timezone = TimezoneFinder().timezone_at(lat=location[0], lng=location[1])
+    
+    firstEmail = satArrive - timedelta(days=time)
+    firstEmailDay = firstEmail.date()
+    secondEmail = satArrive + timedelta(hours=6)
+    
     # Add mailgun here
 
     return jsonify({
@@ -21,25 +32,6 @@ def requestEmail():
         'email': email,
         'time': time
     }), 200
-    
-@app.route('/info', methods=['POST'])
-    
-
-
-def send_simple_message():
-    return requests.post(
-        "https://api.mailgun.net/v3/sandboxb0307974dbfe4b41a863b287f45d506e.mailgun.org/messages",
-        auth=("api", "YOUR_API_KEY"),
-        data={
-            "from": "Excited User <mailgun@sandboxb0307974dbfe4b41a863b287f45d506e.mailgun.org>",
-            "to": [
-                "bar@example.com",
-                "YOU@sandboxb0307974dbfe4b41a863b287f45d506e.mailgun.org",
-            ],
-            "subject": "Hello",
-            "text": "Testing some Mailgun awesomeness!",
-        },
-    )
 
 
 if __name__ == "__main__":
