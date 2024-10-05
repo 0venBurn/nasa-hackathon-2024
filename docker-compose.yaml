@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+
+  email:
+    image: asouthwick1/landsat:email
+    container_name: email-service
+    ports:
+      - "5000:5001"
+    networks:
+      - landsat-net
+
+  data:
+    image: asouthwick1/landsat:data
+    container_name: data-service
+    ports:
+      - "5000:5000"
+    networks:
+      - landsat-net
+
+  react-app:
+    image: asouthwick1/nycapp:react
+    container_name: react-app
+    ports:
+      - "3000:80"
+    depends_on:
+      - asp-run
+    networks:
+      - landsat-net
+
+  nginx:
+    image: asouthwick1/nycapp:proxy
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - email
+      - data
+      - react-app
+    networks:
+      - landsat-net
+
+networks:
+  landsat-net:
+    driver: bridge

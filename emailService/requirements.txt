@@ -1,1 +1,5 @@
-Flask
+flask
+requests
+timezonefinder
+gunicorn
+Flask-Cors
