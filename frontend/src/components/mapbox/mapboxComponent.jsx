@@ -29,7 +29,8 @@ const MapboxComponent = ({ mapRef, coordinates, setCoordinates, userCoordinates 
           mapRef.current.removeSource('square-source');
         }
 
-        drawGridAroundPoint(mapRef.current, coordinates.lng, coordinates.lat);
+        const randomArray = [255,26,26]*9;
+        drawGridAroundPoint(mapRef.current, coordinates.lng, coordinates.lat, randomArray);
       });
     });
 

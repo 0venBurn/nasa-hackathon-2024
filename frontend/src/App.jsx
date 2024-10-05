@@ -37,7 +37,9 @@ function App() {
     }
   };
 
-  function drawGridAroundPoint(map, lng, lat) {
+  const randomArray = Array.from({ length: 9 }, () => Math.random());
+
+  function drawGridAroundPoint(map, lng, lat, colors) {
     const latInMeters = 15 / 111320; // 15 meters in degrees of latitude
     const lngInMeters = 15 / (111320 * Math.cos(lat * (Math.PI / 180))); // Adjust for latitude
 
@@ -52,12 +54,15 @@ function App() {
 
     const squarePolygons = {
       type: 'FeatureCollection',
-      features: allSquares.map((square) => ({
+      features: allSquares.map((square, index) => ({
         type: 'Feature',
         geometry: {
           type: 'Polygon',
           coordinates: [square],
         },
+        properties: {
+          colorIndex: colors[index]
+        }
       })),
     };
 
@@ -66,13 +71,25 @@ function App() {
       data: squarePolygons,
     });
 
+    const colorRamp = [
+      'rgba(255, 255, 255, 1)', // White
+      'rgba(8, 154, 27, 1)',     // Green
+    ];
+
     map.addLayer({
       id: 'square-layer',
       type: 'fill',
       source: 'square-source',
       layout: {},
       paint: {
-        'fill-color': '#ff0000',
+        // Use an expression to interpolate between colors based on the colorIndex
+        'fill-color': [
+          'interpolate',
+          ['linear'],
+          ['get', 'colorIndex'],
+          0, colorRamp[0], // Index 0 -> White
+          8, colorRamp[1], // Index 8 -> Green
+        ],
         'fill-opacity': 0.5,
       },
     });
@@ -109,7 +126,7 @@ function App() {
       mapRef.current.removeSource('square-source');
     }
 
-    drawGridAroundPoint(mapRef.current, x, y);
+    drawGridAroundPoint(mapRef.current, x, y, randomArray);
   };
 
 
