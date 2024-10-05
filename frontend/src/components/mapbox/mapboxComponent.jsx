@@ -14,6 +14,8 @@ const MapboxComponent = ({ mapRef }) => {
         center: [-74.5, 40], // Initial position [lng, lat]
         zoom: 9,
       });
+
+    mapRef.current = map; 
     
 
     map.on('style.load', function () {
