@@ -19,7 +19,7 @@ services:
       - landsat-net
 
   react-app:
-    image: asouthwick1/nycapp:react
+    image: asouthwick1/landsat:react
     container_name: react-app
     ports:
       - "3000:80"
@@ -29,7 +29,7 @@ services:
       - landsat-net
 
   nginx:
-    image: asouthwick1/nycapp:proxy
+    image: asouthwick1/landsat:proxy
     container_name: nginx
     ports:
       - "80:80"
