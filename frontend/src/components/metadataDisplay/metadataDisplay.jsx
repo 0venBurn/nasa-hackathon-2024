@@ -10,13 +10,16 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
         const fetchMetadata = async () => {
             if (!coordinates) return; // Do not fetch if coordinates are not available
 
-            const [lng, lat] = coordinates.split(', ').map(Number); // Extract lng and lat from coordinates
+            //EDITED THIS LAT LNG, was orignially lng, lat 
+            const [lat, lng] = coordinates.split(', ').map(Number); // Extract lng and lat from coordinates
             const data = {
                 lon: lng,  // Use the extracted longitude
                 lat: lat,   // Use the extracted latitude
-                delta: 0.05,  // You can adjust this if needed
+                delta: 0.04,  // You can adjust this if needed
                 dateRange: dateRange  // Use the passed dateRange prop
             };
+            console.log(data)
+        
 
             try {
                 const response = await axios.post('http://127.0.0.1:5000/search-scenes', data);

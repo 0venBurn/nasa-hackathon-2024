@@ -26,7 +26,7 @@ function App() {
   const mapRef = useRef(null);
   const [coordinates, setCoordinates] = useState(''); // State to store coordinates
   const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
-  const [dateRange, setDateRange] = useState('2024-01-01/2024-09-07'); //to be changed 
+  const [dateRange, setDateRange] = useState('2024-06-01/2024-06-17'); //to be changed 
 
   const handleToggleChange = (selection) => {
     const liveDiv = document.getElementById("Live");
