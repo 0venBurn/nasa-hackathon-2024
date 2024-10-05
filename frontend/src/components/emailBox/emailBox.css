@@ -1,46 +1,15 @@
 /* src/cssFiles/emailBox.css */
 .email-box {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.email-box h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.email-box input {
-    width: 100%;
+    width: 100%; /* Make sure the input box takes full width of its container */
+    display: flex;
+    justify-content: center; /* Center the input box horizontally */
+  }
+  
+  .email-input {
+    width: 80%; /* Adjust the width of the input */
     padding: 0.5rem;
-    margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-.email-box button {
-    width: 100%;
-    padding: 0.5rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.email-box button:hover {
-    background-color: #45a049;
-}
-
-.error {
-    color: red;
-    text-align: center;
-}
-
-.success {
-    color: green;
-    text-align: center;
-}
+    font-size: 1rem;
+  }
+  
