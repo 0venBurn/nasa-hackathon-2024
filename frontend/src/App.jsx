@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+
 import React, { useRef, useState } from 'react';
 import MapboxComponent from "./components/mapbox/MapboxComponent";
 import Toggle from "./components/StateToggle/Toggle";
