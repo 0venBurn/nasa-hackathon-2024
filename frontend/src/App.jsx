@@ -43,71 +43,64 @@ function App() {
 
   const randomArray = Array.from({ length: 9 }, () => Math.random());
 
-  function drawGridAroundPoint(map, lng, lat, colors) {
+  function drawGridAroundPoint(map, lng, lat) {
     const latInMeters = 15 / 111320; // 15 meters in degrees of latitude
     const lngInMeters = 15 / (111320 * Math.cos(lat * (Math.PI / 180))); // Adjust for latitude
 
     // Generate a 3x3 grid of squares around the clicked point
     const offsets = [
-      [-lngInMeters, latInMeters],
-      [0, latInMeters],
-      [lngInMeters, latInMeters],
-      [-lngInMeters, 0],
-      [0, 0],
-      [lngInMeters, 0],
-      [-lngInMeters, -latInMeters],
-      [0, -latInMeters],
-      [lngInMeters, -latInMeters],
+      [-lngInMeters, latInMeters],  [0, latInMeters],  [lngInMeters, latInMeters],
+      [-lngInMeters, 0],            [0, 0],            [lngInMeters, 0],
+      [-lngInMeters, -latInMeters], [0, -latInMeters], [lngInMeters, -latInMeters],
     ];
 
-    const allSquares = offsets.map(([offsetLng, offsetLat]) =>
-      generateSquare(lng + offsetLng, lat + offsetLat)
-    );
+    const allSquares = offsets.map(([offsetLng, offsetLat]) => generateSquare(lng + offsetLng, lat + offsetLat));
 
     const squarePolygons = {
-      type: "FeatureCollection",
+      type: 'FeatureCollection',
       features: allSquares.map((square, index) => ({
-        type: "Feature",
+        type: 'Feature',
         geometry: {
-          type: "Polygon",
+          type: 'Polygon',
           coordinates: [square],
         },
         properties: {
-          colorIndex: colors[index],
+          // Set a property for coloring based on the index
+          colorIndex: index,
         },
       })),
     };
 
-    map.addSource("square-source", {
-      type: "geojson",
+    map.addSource('square-source', {
+      type: 'geojson',
       data: squarePolygons,
     });
 
+    // Define the gradient colors
     const colorRamp = [
-      "rgba(255, 255, 255, 1)", // White
-      "rgba(8, 154, 27, 1)", // Green
+      'rgba(255, 255, 255, 1)', // White
+      'rgba(0, 255, 0, 1)',     // Green
     ];
 
+    // Add the layer for squares
     map.addLayer({
-      id: "square-layer",
-      type: "fill",
-      source: "square-source",
+      id: 'square-layer',
+      type: 'fill',
+      source: 'square-source',
       layout: {},
       paint: {
         // Use an expression to interpolate between colors based on the colorIndex
-        "fill-color": [
-          "interpolate",
-          ["linear"],
-          ["get", "colorIndex"],
-          0,
-          colorRamp[0], // Index 0 -> White
-          8,
-          colorRamp[1], // Index 8 -> Green
+        'fill-color': [
+          'interpolate',
+          ['linear'],
+          ['get', 'colorIndex'],
+          0, colorRamp[0], // Index 0 -> White
+          8, colorRamp[1], // Index 8 -> Green
         ],
-        "fill-opacity": 0.5,
+        'fill-opacity': 0.5,
       },
     });
-  }
+}
 
   // Helper function to generate a single square around a given center
   const generateSquare = (lng, lat) => {
@@ -139,6 +132,7 @@ function App() {
       mapRef.current.removeSource("square-source");
     }
 
+    console.log(randomArray)
     drawGridAroundPoint(mapRef.current, x, y, randomArray);
 
     // Set the coordinates when submitted
