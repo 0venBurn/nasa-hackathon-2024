@@ -2,7 +2,8 @@
 from flask import Flask, request, jsonify
 import requests
 from datetime import date, timedelta
-from timezonefinder import TimezoneFinder
+import pytz
+
 
 app = Flask(__name__)
 
@@ -10,27 +11,26 @@ app = Flask(__name__)
 def requestEmail():
     data = request.get_json()
     
-    if 'email' not in data or 'time' not in data or 'location' not in data:
+    if 'email' not in data or 'days' not in data or 'location' not in data:
         return jsonify({'error': 'Argument is missing'}), 400
     
     email = data['email']
-    time = data['time']
+    daysWarning = data['days']
     location = data['location']
     
-    satArrive = request("landsat.co/data/satArrive", params={'location': location})
+    #retruns a datetime with TZ data
+    satArriveDT = request("landsat.co/data/satArrive", params={'location': location})
     
-    timezone = TimezoneFinder().timezone_at(lat=location[0], lng=location[1])
+    firstEmail = satArriveDT - timedelta(days=daysWarning)
+    secondEmail = satArriveDT + timedelta(hours=6)
     
-    firstEmail = satArrive - timedelta(days=time)
-    firstEmailDay = firstEmail.date()
-    secondEmail = satArrive + timedelta(hours=6)
+    firstUtc = firstEmail.astimezone(pytz.utc)
+    secondUtc = secondEmail.astimezone(pytz.utc)
     
     # Add mailgun here
 
     return jsonify({
-        'message': 'Data received successfully',
-        'email': email,
-        'time': time
+        'message': 'Data received successfully'
     }), 200
 
 
