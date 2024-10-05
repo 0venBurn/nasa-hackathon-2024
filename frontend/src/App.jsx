@@ -11,6 +11,9 @@ import CloudCoverage from './components/LeadTime/LeadTime';
 import LeadTime from './components/LeadTime/LeadTime';
 import CoordinateBar from './components/CoordinateBar/CoordinateBar';
 
+import MetadataDisplay from './components/metadataDisplay/metadataDisplay';
+
+
 function App() {
   const mapRef = useRef(null);
   const coordinates = useRef(null);
@@ -46,6 +49,7 @@ function App() {
           <EmailBoxComponent />
           <p>Lead Time</p>
           <LeadTime />
+          <MetadataDisplay />
         </div>
       </div>
       <div id="mapContainer">
