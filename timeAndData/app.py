@@ -10,8 +10,10 @@ import json
 from pystac_client import Client
 import hvplot.xarray
 from pyproj import Transformer
+from flask_cors import CORS 
 
 app = Flask(__name__)
+CORS(app)
 
 stac_url = 'https://landsatlook.usgs.gov/stac-server'
 LandsatSTAC = Client.open(stac_url)
