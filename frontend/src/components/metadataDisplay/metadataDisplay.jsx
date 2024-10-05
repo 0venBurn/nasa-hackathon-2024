@@ -10,7 +10,7 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
         const fetchMetadata = async () => {
             if (!coordinates) return; // Do not fetch if coordinates are not available
 
-            //EDITED THIS LAT LNG, was orignially lng, lat 
+            //EDITED THIS LAT LNG, was originally lng, lat 
             const [lat, lng] = coordinates.split(', ').map(Number); // Extract lng and lat from coordinates
             const data = {
                 lon: lng,  // Use the extracted longitude
