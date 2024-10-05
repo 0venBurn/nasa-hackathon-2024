@@ -4,7 +4,8 @@ import MapboxComponent from "./components/mapbox/MapboxComponent";
 import Toggle from "./components/StateToggle/Toggle";
 import './App.css';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
-import './components/mapbox/mapbox.css';
+// import './components/mapbox/mapbox.css';
+import emailBoxComponent from './components/emailBox/emailBoxComponent';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
     <>
       <div>
         <Toggle  handleToggleChange={handleToggleChange}/>
+        <emailBoxComponent />
       </div>
       <div>
           <MapboxComponent />
