@@ -146,9 +146,9 @@ def requestEmail():
         )
 
     # Email content (default strings)
-    email_subject = "Test Email"
-    email_body_text = "This is a test email sent from your script."
-    email_body_html = "<p>This is a test email sent from your script.</p>"
+    email_subject = "LandSat Notification"
+    email_body_text = f"This is a notification that a LandSat Satelite will be passing over your requested location in {daysWarning} days. \n \n Location: \n Lat: {location[0]} \n Lng: {location[1]}"
+    email_body_html = ""
 
     # Send emails
     current_time_utc = datetime.now(pytz.utc)  # Update current time
