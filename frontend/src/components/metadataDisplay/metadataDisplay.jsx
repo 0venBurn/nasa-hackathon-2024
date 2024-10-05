@@ -22,7 +22,8 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
         
 
             try {
-                const response = await axios.post('/search-scenes', data);
+                const response = await axios.post('http://127.0.0.1:5000/search-scenes', data);
+
                 setMetadata(response.data);
                 console.log(response.data);
             } catch (err) {
