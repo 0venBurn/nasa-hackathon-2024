@@ -1,5 +1,5 @@
 // src/App.js
-import React from "react";
+import React, { useRef } from 'react';
 import MapboxComponent from "./components/mapbox/MapboxComponent";
 import Toggle from "./components/StateToggle/Toggle";
 import "./App.css";
@@ -10,6 +10,7 @@ import dateBox from "./components/dateBox/dateBox";
 
 
 function App() {
+  const mapRef = useRef(null);
   const handleToggleChange = (selection) => {
     // Hide the div that isn't selected
     const liveDiv = document.getElementById("Live");
@@ -35,7 +36,7 @@ function App() {
         </div>
       </div>
       <div id="mapContainer">
-        <MapboxComponent />
+        <MapboxComponent mapRef={mapRef} /> 
       </div>
     </>
   );

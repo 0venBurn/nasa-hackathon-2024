@@ -4,19 +4,18 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import './mapbox.css'; 
 
 // Mapbox Component
-const MapboxComponent = () => {
-  const mapContainerRef = useRef(); 
-
+const MapboxComponent = ({ mapRef }) => {
   useEffect(() => {
-    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN; 
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
-    // Initialize the map
-    const map = new mapboxgl.Map({
-      container: mapContainerRef.current, // Container ID
-      style: 'mapbox://styles/mapbox/streets-v11', // Map style
-      center: [-74.5, 40], // Starting position [lng, lat]
-      zoom: 9, // Starting zoom level
-    });
+    if (!mapRef.current) {
+      mapRef.current = new mapboxgl.Map({
+        container: 'map', // ID of the container element
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-74.5, 40], // Initial position [lng, lat]
+        zoom: 9,
+      });
+    }
 
     map.on('style.load', function () {
       map.on('click', function (e) {
@@ -29,12 +28,12 @@ const MapboxComponent = () => {
     });
 
     // Cleanup the map instance on unmount
-    return () => map.remove();
-  }, []);
+    return () => {
+      if (mapRef.current) mapRef.current.remove();
+    };
+  }, [mapRef]);
 
-  return (
-    <div ref={mapContainerRef} className="map-container" />
-  );
+  return <div id="map" className="map-container" />;
 };
 
 export default MapboxComponent;
