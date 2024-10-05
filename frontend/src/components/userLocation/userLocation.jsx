@@ -48,10 +48,10 @@ const UserLocation = ({ onSubmit }) => {
 
     return (
         <div>
-            <h2>Your Location</h2>
+            {/* <h2>Your Location</h2>
             <p>Latitude: {location.lat}</p>
-            <p>Longitude: {location.lng}</p>
-            <button onClick={handleSubmit}>Submit Location</button>
+            <p>Longitude: {location.lng}</p> */}
+            <button onClick={handleSubmit}>Use Current Location</button>
         </div>
     );
 };
