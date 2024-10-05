@@ -10,7 +10,7 @@ const MapboxComponent = ({ mapRef, coordinates, setCoordinates, userCoordinates 
 
     const map = new mapboxgl.Map({
       container: 'map', // ID of the container element
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/standard-satellite',
       center: userCoordinates ? [userCoordinates.lng, userCoordinates.lat] : [-74.5, 40], // Use user coordinates or default
       zoom: 9,
     });
