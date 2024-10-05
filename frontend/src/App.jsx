@@ -41,7 +41,8 @@ function App() {
 
   const handleSubmit = (x, y) => {
     mapRef.current.flyTo({
-      center: [x,y],
+      center: [x, y],
+      zoom: 15
     })
   };
 
