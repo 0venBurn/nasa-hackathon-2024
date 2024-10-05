@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import './emailBox.css'; // Import any required CSS
 
-const EmailBoxComponent = () => {
-  const [email, setEmail] = useState('');
+const EmailBoxComponent = ({email, setEmail}) => {
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
