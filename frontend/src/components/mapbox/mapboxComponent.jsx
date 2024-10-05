@@ -23,7 +23,6 @@ const MapboxComponent = ({ mapRef, coordinates, setCoordinates, userCoordinates 
         var coordinates = e.lngLat;
         const formattedCoordinates = `${coordinates.lng}, ${coordinates.lat}`;
         setCoordinates(formattedCoordinates);
-        // mapCoordBox.innerHTML = `${coordinates.lng}, ${coordinates.lat}`;
         console.log("Coordinates:", coordinates);
           new mapboxgl.Popup()
               .setLngLat(coordinates)
