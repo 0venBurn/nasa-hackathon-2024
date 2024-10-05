@@ -1,0 +1,17 @@
+/* src/cssFiles/mapbox.css */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensure the body takes full height */
+    overflow: hidden; /* Prevent scrollbars */
+  }
+  
+  .map-container {
+    position: absolute; /* Make the container fill the viewport */
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 0;
+  }
+  

@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+
+#Future,#Live {
+  position: relative;
+}
+
+#toggleContainer{
+  position: absolute; /* Make the container fill the viewport */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  z-index: 0;
+  border: 3px solid blue;  
+}
+
+#mapContainer{
+    position: absolute; /* Make the container fill the viewport */
+    top: 0;
+    bottom: 0;
+    /* left: 0; */
+    right: 0; /* align to right*/
+    width: 50%;
+    z-index: 0;
+    border: 3px solid red;  
+}
