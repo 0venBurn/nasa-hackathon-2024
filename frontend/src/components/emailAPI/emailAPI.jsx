@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import EmailBoxComponent from './components/emailBox/emailBoxComponent';
-import LeadTime from './components/LeadTime/LeadTime';
-import CoordinateBar from './components/CoordinateBar/CoordinateBar';
 
-const EmailAPI = () => {
-  const [email, setEmail] = useState('');
-  const [days, setTime] = useState('');
-  const [location, setCoord] = useState('');
+const EmailAPI = ({email, leadTime, cloudCoverage, location} ) => {
 
   const handleFetch = async () => {
     const data = {
         email,
-        days,
-        location,
+      leadTime,
+        cloudCoverage,
+        location
     };
 
     try {
@@ -37,10 +32,7 @@ const EmailAPI = () => {
 
   return (
     <div>
-      <h1>Parent Component</h1>
-      <EmailBoxComponent onValueChange={setEmail} />
-      <LeadTime onValueChange={setTime} />
-      <CoordinateBar onValueChange={setCoord} />
+      <br></br>
       <button onClick={handleFetch}>Submit</button>
     </div>
   );

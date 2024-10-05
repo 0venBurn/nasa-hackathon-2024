@@ -10,7 +10,7 @@ const MapboxComponent = ({ mapRef, coordinates, setCoordinates, userCoordinates 
 
     const map = new mapboxgl.Map({
       container: 'map', // ID of the container element
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/standard-satellite',
       center: userCoordinates ? [userCoordinates.lng, userCoordinates.lat] : [-74.5, 40], // Use user coordinates or default
       zoom: 9,
     });
@@ -29,7 +29,8 @@ const MapboxComponent = ({ mapRef, coordinates, setCoordinates, userCoordinates 
           mapRef.current.removeSource('square-source');
         }
 
-        drawGridAroundPoint(mapRef.current, coordinates.lng, coordinates.lat);
+        const ar = [255,255,26]*9;
+        drawGridAroundPoint(mapRef.current, coordinates.lng, coordinates.lat, ar);
       });
     });
 
