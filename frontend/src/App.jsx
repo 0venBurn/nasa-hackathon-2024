@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import MapboxComponent from "./components/mapbox/MapboxComponent";
 import Toggle from "./components/StateToggle/Toggle";
 import "./App.css";
@@ -9,10 +9,12 @@ import DateBox from "./components/dateBox/dateBox";
 import CloudCoverage from './components/LeadTime/LeadTime';
 import LeadTime from './components/LeadTime/LeadTime';
 import MetadataDisplay from './components/metadataDisplay/metadataDisplay';
+import UserLocation from './components/userLocation/userLocation';
 
 
 function App() {
   const mapRef = useRef(null);
+  const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
   const handleToggleChange = (selection) => {
     // Hide the div that isn't selected
     const liveDiv = document.getElementById("Live");
@@ -25,22 +27,29 @@ function App() {
       futureDiv.style.display = "block";
     }
   };
+
+  const handleLocationSubmit = (location) => {
+    setUserCoordinates(location); // Update user coordinates on submit
+  };
+
   return (
     <>
       <div id="toggleContainer">
         <Toggle handleToggleChange={handleToggleChange} />
         <div id="Live">
           <DateBox />
+          <UserLocation onSubmit={handleLocationSubmit} />
         </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
           <p>Lead Time</p>
           <LeadTime />
           <MetadataDisplay />
+          
         </div>
       </div>
       <div id="mapContainer">
-        <MapboxComponent mapRef={mapRef} /> 
+        <MapboxComponent mapRef={mapRef} userCoordinates={userCoordinates} />  
       </div>
     </>
   );

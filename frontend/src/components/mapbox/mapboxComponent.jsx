@@ -4,14 +4,14 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import './mapbox.css'; 
 
 // Mapbox Component
-const MapboxComponent = ({ mapRef }) => {
+const MapboxComponent = ({ mapRef, userCoordinates }) => {
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
     const map = new mapboxgl.Map({
         container: 'map', // ID of the container element
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-74.5, 40], // Initial position [lng, lat]
+        center: userCoordinates ? [userCoordinates.lng, userCoordinates.lat] : [-74.5, 40], // Use user coordinates or default
         zoom: 9,
       });
 
@@ -20,19 +20,25 @@ const MapboxComponent = ({ mapRef }) => {
 
     map.on('style.load', function () {
       map.on('click', function (e) {
-        var coordinates = e.lngLat;
-        new mapboxgl.Popup()
-          .setLngLat(coordinates)
-          .setHTML(coordinates)
-          .addTo(map);
+          var coordinates = e.lngLat;
+          new mapboxgl.Popup()
+              .setLngLat(coordinates)
+              .setHTML(`Latitude: ${coordinates.lat}, Longitude: ${coordinates.lng}`)
+              .addTo(map);
       });
-    });
+  });
 
-    // Cleanup the map instance on unmount
     return () => {
       if (mapRef.current) mapRef.current.remove();
-    };
-  }, [mapRef]);
+  };
+}, [mapRef, userCoordinates]);
+
+useEffect(() => {
+  if (userCoordinates) {
+      // Set the map's center to the user's coordinates when they change
+      mapRef.current.setCenter([userCoordinates.lng, userCoordinates.lat]);
+  }
+}, [userCoordinates, mapRef]);
 
   return <div id="map" className="map-container" />;
 };
