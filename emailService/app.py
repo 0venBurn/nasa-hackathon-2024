@@ -109,7 +109,7 @@ def requestEmail():
 
         # Get the satellite arrival datetime
         satArrive_response = requests.get(
-            "https://landsat.co/data/satArrive", params={"location": location}
+            "https://landsat.co/data/next-overhead-time", params={"lat": location[0], "lon": location[1], "delta": 0.04}
         )
 
         if satArrive_response.status_code != 200:
