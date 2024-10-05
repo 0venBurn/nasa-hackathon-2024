@@ -6,7 +6,7 @@ import "./App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 // import './components/mapbox/mapbox.css';
 import EmailBoxComponent from "./components/emailBox/emailBoxComponent";
-import dateBox from "./components/dateBox/dateBox";
+import dateBox from "./components/dateBox/DateBox";
 
 
 function App() {
@@ -32,7 +32,6 @@ function App() {
         <div id="Live"></div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
-          <dateBox />
         </div>
       </div>
       <div id="mapContainer">

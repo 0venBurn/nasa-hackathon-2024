@@ -8,14 +8,13 @@ const MapboxComponent = ({ mapRef }) => {
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
-    if (!mapRef.current) {
-      mapRef.current = new mapboxgl.Map({
+    const map = new mapboxgl.Map({
         container: 'map', // ID of the container element
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-74.5, 40], // Initial position [lng, lat]
         zoom: 9,
       });
-    }
+    
 
     map.on('style.load', function () {
       map.on('click', function (e) {
