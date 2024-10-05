@@ -8,7 +8,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 // import './components/mapbox/mapbox.css';
 import EmailBoxComponent from "./components/emailBox/emailBoxComponent";
 import DateBox from "./components/dateBox/dateBox";
-import CloudCoverage from './components/LeadTime/LeadTime';
+// import CloudCoverage from './components/LeadTime/LeadTime';
 import LeadTime from './components/LeadTime/LeadTime';
 import CoordinateBar from './components/CoordinateBar/CoordinateBar';
 
@@ -19,10 +19,9 @@ import UserLocation from './components/userLocation/userLocation';
 function App() {
   const mapRef = useRef(null);
   const [coordinates, setCoordinates] = useState(''); // State to store coordinates
-
   const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
+
   const handleToggleChange = (selection) => {
-    // Hide the div that isn't selected
     const liveDiv = document.getElementById("Live");
     const futureDiv = document.getElementById("Future");
     if (selection === "Live") {
@@ -36,14 +35,17 @@ function App() {
 
   const handleLocationSubmit = (location) => {
     setUserCoordinates(location); // Update user coordinates on submit
+    setCoordinates(`${location.lng}, ${location.lat}`); // Update coordinates in the input field
   };
-
 
   const handleSubmit = (x, y) => {
     mapRef.current.flyTo({
       center: [x,y],
+      zoom:10, //handling here for now 
     })
   };
+
+
 
   return (
     <>
@@ -52,18 +54,24 @@ function App() {
         <div id="Live">
           <DateBox />
           <UserLocation onSubmit={handleLocationSubmit} />
-          <CoordinateBar handleSubmit={handleSubmit} coordinates={coordinates} setCoordinates={setCoordinates}/>
+          <CoordinateBar 
+            handleSubmit={handleSubmit} 
+            coordinates={coordinates} 
+            setCoordinates={setCoordinates}
+          />
         </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
           <p>Lead Time</p>
           <LeadTime />
           <MetadataDisplay />
-          
         </div>
       </div>
       <div id="mapContainer">
-        <MapboxComponent mapRef={mapRef} userCoordinates={userCoordinates} coordinates={coordinates} setCoordinates={setCoordinates}/>  
+        <MapboxComponent 
+          mapRef={mapRef} 
+          userCoordinates={userCoordinates} 
+          coordinates={coordinates} setCoordinates={setCoordinates}/>  
       </div>
     </>
   );
