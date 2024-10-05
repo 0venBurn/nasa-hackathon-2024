@@ -29,6 +29,7 @@ function App() {
   const [coordinates, setCoordinates] = useState(''); // State to store coordinates
   const [clouds, setClouds] = useState(''); // State to store coordinates
   const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
+  const [dateRange, setDateRange] = useState('2024-06-01/2024-06-17'); //to be changed 
   const [leadTime, setLeadTime] = useState('');
   const [email, setEmail] = useState('');
 
@@ -135,6 +136,9 @@ function App() {
     }
 
     drawGridAroundPoint(mapRef.current, x, y, randomArray);
+
+    // Set the coordinates when submitted
+    setCoordinates(`${x}, ${y}`); 
   };
 
   const handleDownload = () => {
@@ -155,6 +159,7 @@ function App() {
             coordinates={coordinates} 
             setCoordinates={setCoordinates}
           />
+          <MetadataDisplay coordinates={coordinates} dateRange={dateRange} /> 
           <DownloadButton onClick={handleDownload}/>
         </div>
         <div id="Future" style={{ display: "none" }}>
@@ -168,7 +173,7 @@ function App() {
           <p>Lead Time</p>
           <LeadTime />
           <CloudCoverage clouds={clouds} setClouds={setClouds} minimum={"1"} maximum={"100"} labels={"Cloud Coverage"}/>
-          <MetadataDisplay />
+          
           <EmailAPI email={email} leadTime={leadTime} cloudCoverage={clouds} location={coordinates}/>
         </div>
       </div>
