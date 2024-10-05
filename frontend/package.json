@@ -15,7 +15,8 @@
     "react": "^18.3.1",
     "react-datepicker": "^7.4.0",
     "react-dom": "^18.3.1",
-    "react-map-gl": "^7.1.7"
+    "react-map-gl": "^7.1.7",
+    "react-select": "^5.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

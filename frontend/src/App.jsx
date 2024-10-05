@@ -6,7 +6,9 @@ import "./App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 // import './components/mapbox/mapbox.css';
 import EmailBoxComponent from "./components/emailBox/emailBoxComponent";
-import dateBox from "./components/dateBox/DateBox";
+import DateBox from "./components/dateBox/dateBox";
+import CloudCoverage from './components/LeadTime/LeadTime';
+import LeadTime from './components/LeadTime/LeadTime';
 
 
 function App() {
@@ -29,9 +31,14 @@ function App() {
     <>
       <div id="toggleContainer">
         <Toggle handleToggleChange={handleToggleChange} />
-        <div id="Live"></div>
+        <div id="Live">
+          <DateBox />
+        </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
+          <p>Lead Time</p>
+          <LeadTime />
+
         </div>
       </div>
       <div id="mapContainer">
