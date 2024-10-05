@@ -11,6 +11,7 @@ from pystac_client import Client
 import hvplot.xarray
 from pyproj import Transformer
 from flask_cors import CORS 
+from datetime import date, timedelta, datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -100,18 +101,6 @@ def search_scenes():
 
     Landsat_items = [i.to_dict() for i in LandsatSearch.items()]
 
-    # Function to get content of an S3 URL
-    def get_metadata_content(s3_url):
-        bucket_name = s3_url.split('/')[2]
-        key = '/'.join(s3_url.split('/')[3:])
-        
-        s3_client = boto3.client('s3', region_name='us-west-2')
-        
-        metadata_object = s3_client.get_object(Bucket=bucket_name, Key=key, RequestPayer='requester')
-        metadata_content = metadata_object['Body'].read().decode('utf-8')
-        
-        return metadata_content
-
     # Example usage with the metadata S3 URL
     metadata_list = []
     for item in Landsat_items:
@@ -131,10 +120,9 @@ def search_scenes():
 @app.route('/next-overhead-time', methods=['POST'])
 def next_overhead_time():
     # Extract parameters from the POST request
-    data = request.get_json()
-    lon = data.get('lon')
-    lat = data.get('lat')
-    delta = data.get('delta')
+    lon = float(request.args.get('lon'))
+    lat = float(request.args.get('lat'))
+    delta = float(request.args.get('delta'))
 
     if not all([lon, lat, delta]):
         return jsonify({"error": "Missing parameters: lon, lat, or delta"}), 400
@@ -143,44 +131,95 @@ def next_overhead_time():
     geometry = BuildSquare(lat, lon, delta)
     bbox = bounds(geometry)
 
-    # Perform the STAC search with a recent date range and limit
+    # Calculate the date range: from two weeks ago to today
+    today = date.today()
+    two_weeks_ago = today - timedelta(weeks=2)
+    date_range = f"{two_weeks_ago.strftime('%Y-%m-%d')}/{today.strftime('%Y-%m-%d')}"
+
+    # Perform the STAC search without filters to check availability
     LandsatSearch = LandsatSTAC.search(
         bbox=bbox,
-        datetime="2023-09-01/2024-10-01",  # Use a dynamic recent date range as needed
-        query=['eo:cloud_cover95'],  
         collections=["landsat-c2l2-sr"],
-        limit=20  # Limit the number of results to process
+        datetime=date_range
     )
 
     # Convert search results to a list of dictionaries
     Landsat_items = [i.to_dict() for i in LandsatSearch.items()]
 
-    # Initialize variables to store the most recent scenes' datetime
-    latest_landsat8_datetime = None
-    latest_landsat9_datetime = None
+    # Debug: Print the search results to check what's returned
+    print(f"Found {len(Landsat_items)} items in the search results.")
 
     # Loop through the items to find the latest Landsat 8 and 9 scenes
+    # Example usage with the metadata S3 URL
+    metadata_list = []
     for item in Landsat_items:
-        spacecraft_id = item['properties'].get('landsat:spacecraft_id')
-        scene_datetime = item['properties'].get('datetime')
+        try:
+            metadata_s3_url = item["assets"]["MTL.json"]["alternate"]["s3"]["href"]
+            metadata_content = get_metadata_content(metadata_s3_url)
+            
+            # Parse the metadata content to a JSON object
+            metadata_json = json.loads(metadata_content)
+            metadata_list.append(metadata_json)
+        except Exception as e:
+            print(f"Error fetching metadata: {e}")
+    
+    # Initialize variables to store the most recent scenes' datetime
+    latest_landsat8_date = None
+    latest_landsat9_date = None
+    latest_landsat8_time = None
+    latest_landsat9_time = None
 
-        if spacecraft_id == 'LANDSAT_8' and latest_landsat8_datetime is None:
-            latest_landsat8_datetime = scene_datetime
-        elif spacecraft_id == 'LANDSAT_9' and latest_landsat9_datetime is None:
-            latest_landsat9_datetime = scene_datetime
+    for item in metadata_list:
+        spacecraft_id = item["LANDSAT_METADATA_FILE"]["IMAGE_ATTRIBUTES"]["SPACECRAFT_ID"]
+        date_acquired = item["LANDSAT_METADATA_FILE"]["IMAGE_ATTRIBUTES"]["DATE_ACQUIRED"]
+        scene_center_time = item["LANDSAT_METADATA_FILE"]["IMAGE_ATTRIBUTES"]["SCENE_CENTER_TIME"]
 
-        # Break early if both latest scenes are found
-        if latest_landsat8_datetime and latest_landsat9_datetime:
-            break
+        print(f"Spacecraft ID: {spacecraft_id}")
+        print(f"Date Acquired: {date_acquired}")
+        print(f"Scene Center Time: {scene_center_time}")
+
+        # Parse date_acquired as a datetime object for comparison
+        date_acquired_datetime = datetime.strptime(date_acquired, "%Y-%m-%d")
+
+        if spacecraft_id == 'LANDSAT_8':
+            # Update if latest_landsat8_date is None or a newer date is found
+            if latest_landsat8_date is None or date_acquired_datetime > latest_landsat8_date:
+                print(latest_landsat8_date, date_acquired_datetime)
+                latest_landsat8_date = date_acquired_datetime
+            if latest_landsat8_time is None:
+                latest_landsat8_time = scene_center_time
+        if spacecraft_id == 'LANDSAT_9':
+            # Update if latest_landsat9_date is None or a newer date is found
+            if latest_landsat9_date is None or date_acquired_datetime > latest_landsat9_date:
+                latest_landsat9_date = date_acquired_datetime
+            if latest_landsat9_time is None:
+                latest_landsat9_time = scene_center_time
+
+    # Add 2 weeks to the latest dates
+    if latest_landsat8_date:
+        latest_landsat8_date += timedelta(weeks=2)
+    if latest_landsat9_date:
+        latest_landsat9_date += timedelta(weeks=2)
+        
+    # Convert the latest dates back to string format for output
+    latest_landsat8_date_str = latest_landsat8_date.strftime("%Y-%m-%d") if latest_landsat8_date else None
+    latest_landsat9_date_str = latest_landsat9_date.strftime("%Y-%m-%d") if latest_landsat9_date else None
+
+    if latest_landsat8_time:
+        latest_landsat8_date_str += f"-{latest_landsat8_time[:8]}"
+    if latest_landsat9_time:
+        latest_landsat9_date_str += f"-{latest_landsat9_time[:8]}"
+    print(f"Latest Landsat 8 Date Acquired: {latest_landsat8_date_str}")
+    print(f"Latest Landsat 9 Date Acquired: {latest_landsat9_date_str}")
 
     # Prepare the response with the next passover times
     response = {
-        "landsat8NextPassover": latest_landsat8_datetime,
-        "landsat9NextPassover": latest_landsat9_datetime
+        "landsat8NextPassover": latest_landsat8_date_str,
+        "landsat9NextPassover": latest_landsat9_date_str
     }
 
     # Return the response as a JSON
     return jsonify(response)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
