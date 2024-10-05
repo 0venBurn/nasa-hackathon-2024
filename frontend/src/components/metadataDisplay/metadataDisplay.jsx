@@ -34,7 +34,7 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
 
                 setMetadata(response.data); // Set metadata if the response is not empty
             } catch (err) {
-                setError('Failed to fetch metadata');
+                // setError('Failed to fetch metadata');
                 console.error(err);
             
                 try {
