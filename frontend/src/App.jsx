@@ -20,6 +20,7 @@ import MetadataDisplay from './components/metadataDisplay/metadataDisplay';
 import UserLocation from './components/userLocation/userLocation';
 import DownloadButton from './components/downloadButton/downloadButton';
 import CloudCoverage from './components/CloudCoverage/CloudCoverage';
+import EmailAPI from './components/emailAPI/emailAPI';
 
 
 
@@ -29,6 +30,8 @@ function App() {
   const [clouds, setClouds] = useState(''); // State to store coordinates
   const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
   const [leadTime, setLeadTime] = useState('');
+  const [email, setEmail] = useState('');
+
 
   const handleToggleChange = (selection) => {
     const liveDiv = document.getElementById("Live");
@@ -155,11 +158,18 @@ function App() {
           <DownloadButton onClick={handleDownload}/>
         </div>
         <div id="Future" style={{ display: "none" }}>
-          <EmailBoxComponent />
+          <UserLocation />
+        <CoordinateBar 
+            handleSubmit={handleSubmit} 
+            coordinates={coordinates} 
+            setCoordinates={setCoordinates}
+          />
+          <EmailBoxComponent email={email} setEmail={setEmail} />
           <p>Lead Time</p>
           <LeadTime />
           <CloudCoverage clouds={clouds} setClouds={setClouds} minimum={"1"} maximum={"100"} labels={"Cloud Coverage"}/>
           <MetadataDisplay />
+          <EmailAPI email={email} leadTime={leadTime} cloudCoverage={clouds} location={coordinates}/>
         </div>
       </div>
       <div id="mapContainer">
