@@ -1,5 +1,6 @@
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import requests
 from datetime import date, timedelta
 import pytz
@@ -36,3 +37,5 @@ def requestEmail():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5000, debug=False)
+    # CORS(app, origins=["https://landsatcheck.co"])
