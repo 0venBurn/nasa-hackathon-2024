@@ -32,7 +32,7 @@ const EmailAPI = ({email, leadTime, cloudCoverage, location} ) => {
 
   return (
     <div>
-      <h1>Parent Component</h1>
+      <br></br>
       <button onClick={handleFetch}>Submit</button>
     </div>
   );
