@@ -1,15 +1,17 @@
 import os
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 import pytz
 import requests
 from dateutil import parser
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app, origins=["https://landsatcheck.co"])  # Enable CORS for the specified origin
 
 
 def send_email(
@@ -172,4 +174,6 @@ def requestEmail():
 
 
 if __name__ == "__main__":
+    # Uncomment the desired app.run configuration
+    # app.run(host='0.0.0.0', port=5000, debug=False)
     app.run(debug=True)
