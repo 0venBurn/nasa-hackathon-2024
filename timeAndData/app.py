@@ -1,15 +1,21 @@
 from flask import Flask, jsonify, request
-import logging
+import os
+import rasterio as rio
+from rasterio.session import AWSSession
 from rasterio.features import bounds
+import rioxarray
+import matplotlib.pyplot as plt
 import boto3
+import json
 from pystac_client import Client
+import hvplot.xarray
+from pyproj import Transformer
 
 app = Flask(__name__)
 
-# Set up logging
-logging.basicConfig(filename='search_scenes.log', level=logging.DEBUG)
-
 stac_url = 'https://landsatlook.usgs.gov/stac-server'
+ls_cat = Client.open(stac_url)
+print(ls_cat)
 
 # Initialize the S3 client
 s3_client = boto3.client('s3', region_name='us-west-2')
@@ -17,6 +23,14 @@ s3_client = boto3.client('s3', region_name='us-west-2')
 # Define the bucket name and prefix (directory) you want to list
 bucket_name = 'usgs-landsat'
 prefix = 'collection02/'  # To list contents in the 'collection02/' directory
+
+def BuildSquare(lon, lat, delta):
+    c1 = [lon + delta, lat + delta]
+    c2 = [lon + delta, lat - delta]
+    c3 = [lon - delta, lat - delta]
+    c4 = [lon - delta, lat + delta]
+    geometry = {"type": "Polygon", "coordinates": [[ c1, c2, c3, c4, c1 ]]}
+    return geometry
 
 @app.route('/list-objects', methods=['GET'])
 def list_objects():
@@ -37,83 +51,71 @@ def list_objects():
 
 @app.route('/search-scenes', methods=['POST'])
 def search_scenes():
-    debug_info = {}  # Dictionary to store debug info
+    # Initialize the STAC client
+    LandsatSTAC = Client.open("https://landsatlook.usgs.gov/stac-server", headers=[])
 
-    try:
-        # Initialize the STAC client
-        LandsatSTAC = Client.open(stac_url, headers=[])
+    # Function to build the square
+    def BuildSquare(lon, lat, delta):
+        c1 = [lon + delta, lat + delta]
+        c2 = [lon + delta, lat - delta]
+        c3 = [lon - delta, lat - delta]
+        c4 = [lon - delta, lat + delta]
+        geometry = {"type": "Polygon", "coordinates": [[c1, c2, c3, c4, c1]]}
+        return geometry
 
-        # Function to build the square
-        def BuildSquare(lon, lat, delta):
-            logging.debug(f"BuildSquare input - lon: {lon} ({type(lon)}), lat: {lat} ({type(lat)}), delta: {delta} ({type(delta)})")
-            c1 = [lon + delta, lat + delta]
-            c2 = [lon + delta, lat - delta]
-            c3 = [lon - delta, lat - delta]
-            c4 = [lon - delta, lat + delta]
-            logging.debug(f"Corners: c1={c1}, c2={c2}, c3={c3}, c4={c4}")
-            geometry = {"type": "Polygon", "coordinates": [[c1, c2, c3, c4, c1]]}
-            logging.debug(f"Generated geometry: {geometry}")
-            return geometry
+    # Extract parameters from the POST request
+    data = request.get_json()
+    lon = data.get('lon')
+    lat = data.get('lat')
+    delta = data.get('delta')
+    dateRange = data.get('dateRange')
 
-        # Extract parameters from the POST request
-        data = request.get_json()
-        lon = data.get('lon')
-        lat = data.get('lat')
-        delta = data.get('delta')
-        dateRange = data.get('dateRange')
+    if not all([lon, lat, delta, dateRange]):
+        return jsonify({"error": "Missing parameters: lon, lat, delta, or dateRange"}), 400
 
-        debug_info['input_params'] = {'lon': lon, 'lat': lat, 'delta': delta, 'dateRange': dateRange}
-        logging.debug(f"Input parameters: {debug_info['input_params']}")
+    # Build geometry using the provided parameters
+    geometry = BuildSquare(lat, lon, delta)
+    bbox = bounds(geometry) 
 
-        if not all([lon, lat, delta, dateRange]):
-            return jsonify({"error": "Missing parameters: lon, lat, delta, or dateRange", "debug_info": debug_info}), 400
+    # Perform the STAC search
+    LandsatSearch = LandsatSTAC.search(
+        bbox=bbox,
+        datetime=dateRange,
+        query = ['eo:cloud_cover95'],
+        collections=["landsat-c2l2-sr"]
+    )
 
-        # Ensure lon, lat, and delta are floats
-        try:
-            lon = float(lon)
-            lat = float(lat)
-            delta = float(delta)
-        except ValueError as e:
-            error_msg = f"Error converting geometry parameters to float: {str(e)}"
-            logging.error(error_msg)
-            return jsonify({"error": error_msg, "debug_info": debug_info}), 400
+    Landsat_items = [i.to_dict() for i in LandsatSearch.items()]
 
-        # Build geometry using the provided parameters
-        geometry = BuildSquare(lon, lat, delta)
-        debug_info['geometry'] = geometry
+    # Function to get content of an S3 URL
+    def get_metadata_content(s3_url):
+        bucket_name = s3_url.split('/')[2]
+        key = '/'.join(s3_url.split('/')[3:])
         
+        s3_client = boto3.client('s3', region_name='us-west-2')
+        
+        metadata_object = s3_client.get_object(Bucket=bucket_name, Key=key, RequestPayer='requester')
+        metadata_content = metadata_object['Body'].read().decode('utf-8')
+        
+        return metadata_content
+
+    # Example usage with the metadata S3 URL
+    metadata_list = []
+    for item in Landsat_items:
         try:
-            bbox = bounds(geometry)
-            debug_info['bbox'] = bbox
-            logging.debug(f"Bounding box: {bbox}")
+            metadata_s3_url = item["assets"]["MTL.json"]["alternate"]["s3"]["href"]
+            metadata_content = get_metadata_content(metadata_s3_url)
+            
+            # Parse the metadata content to a JSON object
+            metadata_json = json.loads(metadata_content)
+            metadata_list.append(metadata_json)
         except Exception as e:
-            error_msg = f"Error calculating bounds: {str(e)}"
-            logging.error(error_msg)
-            return jsonify({"error": error_msg, "debug_info": debug_info}), 400
-
-        # Perform the STAC search
-        try:
-            LandsatSearch = LandsatSTAC.search(
-                bbox=bbox,
-                datetime=dateRange,
-                query=['eo:cloud_cover95'],
-                collections=["landsat-c2l2-sr"]
-            )
-            Landsat_items = [i.to_dict() for i in LandsatSearch.items()]
-            debug_info['landsat_items_count'] = len(Landsat_items)
-            logging.debug(f"Number of Landsat items: {len(Landsat_items)}")
-        except Exception as e:
-            error_msg = f"Error during STAC search: {str(e)}"
-            logging.error(error_msg)
-            return jsonify({"error": error_msg, "debug_info": debug_info}), 500
-
-        # Return the results
-        return jsonify({"items": Landsat_items, "debug_info": debug_info})
-
-    except Exception as e:
-        error_msg = f"Unexpected error: {str(e)}"
-        logging.error(error_msg)
-        return jsonify({"error": error_msg, "debug_info": debug_info}), 500
-
-if __name__ == '__main__':
+            print(f"Error fetching metadata: {e}")
+    
+    # Return the metadata as a JSON response
+    return jsonify(metadata_list)
+    
+if __name__ == "__main__":
     app.run(debug=True)
+
+
