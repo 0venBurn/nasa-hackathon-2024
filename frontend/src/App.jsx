@@ -43,7 +43,7 @@ function App() {
 
   const randomArray = Array.from({ length: 9 }, () => Math.random());
 
-  function drawGridAroundPoint(map, lng, lat) {
+  function drawGridAroundPoint(map, lng, lat, colors) {
     const latInMeters = 15 / 111320; // 15 meters in degrees of latitude
     const lngInMeters = 15 / (111320 * Math.cos(lat * (Math.PI / 180))); // Adjust for latitude
 
@@ -66,7 +66,7 @@ function App() {
         },
         properties: {
           // Set a property for coloring based on the index
-          colorIndex: index,
+          colorIndex: colors[index],
         },
       })),
     };
@@ -95,7 +95,7 @@ function App() {
           ['linear'],
           ['get', 'colorIndex'],
           0, colorRamp[0], // Index 0 -> White
-          8, colorRamp[1], // Index 8 -> Green
+          1, colorRamp[1], // Index 8 -> Green
         ],
         'fill-opacity': 0.5,
       },
