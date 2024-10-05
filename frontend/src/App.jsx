@@ -18,6 +18,8 @@ import UserLocation from './components/userLocation/userLocation';
 
 function App() {
   const mapRef = useRef(null);
+  const [coordinates, setCoordinates] = useState(''); // State to store coordinates
+
   const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
   const handleToggleChange = (selection) => {
     // Hide the div that isn't selected
@@ -50,7 +52,7 @@ function App() {
         <div id="Live">
           <DateBox />
           <UserLocation onSubmit={handleLocationSubmit} />
-          <CoordinateBar handleSubmit={handleSubmit} />
+          <CoordinateBar handleSubmit={handleSubmit} coordinates={coordinates} setCoordinates={setCoordinates}/>
         </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
@@ -61,7 +63,7 @@ function App() {
         </div>
       </div>
       <div id="mapContainer">
-        <MapboxComponent mapRef={mapRef} userCoordinates={userCoordinates} />  
+        <MapboxComponent mapRef={mapRef} userCoordinates={userCoordinates} coordinates={coordinates} setCoordinates={setCoordinates}/>  
       </div>
     </>
   );
