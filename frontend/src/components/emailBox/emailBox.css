@@ -1,0 +1,15 @@
+/* src/cssFiles/emailBox.css */
+.email-box {
+    width: 100%; /* Make sure the input box takes full width of its container */
+    display: flex;
+    justify-content: center; /* Center the input box horizontally */
+  }
+  
+  .email-input {
+    width: 80%; /* Adjust the width of the input */
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
