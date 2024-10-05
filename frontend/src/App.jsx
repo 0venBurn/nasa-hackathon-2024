@@ -16,7 +16,7 @@ import MetadataDisplay from './components/metadataDisplay/metadataDisplay';
 
 function App() {
   const mapRef = useRef(null);
-  const coordinates = useRef(null);
+  const [coordinates, setCoordinates] = useState(''); // State to store coordinates
 
   const handleToggleChange = (selection) => {
     // Hide the div that isn't selected
@@ -43,7 +43,7 @@ function App() {
         <Toggle handleToggleChange={handleToggleChange} />
         <div id="Live">
           <DateBox />
-          <CoordinateBar handleSubmit={handleSubmit} />
+          <CoordinateBar handleSubmit={handleSubmit} coordinates={coordinates} setCoordinates={setCoordinates}/>
         </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />
@@ -53,7 +53,7 @@ function App() {
         </div>
       </div>
       <div id="mapContainer">
-        <MapboxComponent mapRef={mapRef} /> 
+        <MapboxComponent mapRef={mapRef} coordinates={coordinates} setCoordinates={setCoordinates}/> 
       </div>
     </>
   );

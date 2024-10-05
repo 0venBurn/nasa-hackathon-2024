@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const CoordinateBar = ({ handleSubmit }) => {
-    const [coordinates, setCoordinates] = useState('');
+const CoordinateBar = ({ handleSubmit, coordinates, setCoordinates }) => {
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        setError(''); // Clear errors when coordinates change
+    }, [coordinates]);
 
     // Handle form submission
     const onSubmit = (e) => {
@@ -30,7 +33,7 @@ const CoordinateBar = ({ handleSubmit }) => {
                     <input
                         type="text"
                         value={coordinates}
-                        onChange={(e) => setCoordinates(e.target.value)}
+                        onChange={(e) => setCoordinates(e.target.value)} // Allow manual input
                         placeholder="e.g. 12.232, 43.543"
                         required
                         id="coordinate"

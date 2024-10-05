@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import './mapbox.css'; 
 
 // Mapbox Component
-const MapboxComponent = ({ mapRef }) => {
+const MapboxComponent = ({ mapRef, coordinates, setCoordinates }) => {
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
