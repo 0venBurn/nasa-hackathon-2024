@@ -26,6 +26,7 @@ function App() {
   const mapRef = useRef(null);
   const [coordinates, setCoordinates] = useState(''); // State to store coordinates
   const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
+  const [dateRange, setDateRange] = useState('2023-01-01/2023-12-31'); //to be changed 
 
   const handleToggleChange = (selection) => {
     const liveDiv = document.getElementById("Live");
@@ -112,6 +113,9 @@ function App() {
     }
 
     drawGridAroundPoint(mapRef.current, x, y);
+
+    // Set the coordinates when submitted
+    setCoordinates(`${x}, ${y}`); 
   };
 
   const handleDownload = () => {
@@ -138,7 +142,7 @@ function App() {
           <EmailBoxComponent />
           <p>Lead Time</p>
           <LeadTime />
-          <MetadataDisplay />
+          <MetadataDisplay coordinates={coordinates} dateRange={dateRange} /> 
         </div>
       </div>
       <div id="mapContainer">

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const MetadataDisplay = () => {
+const MetadataDisplay = ({ coordinates, dateRange }) => {
     const [metadata, setMetadata] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         // Function to fetch metadata from the API
         const fetchMetadata = async () => {
+            if (!coordinates) return; // Do not fetch if coordinates are not available
+
+            const [lng, lat] = coordinates.split(', ').map(Number); // Extract lng and lat from coordinates
             const data = {
-                lon: -95.33,  // Example longitude
-                lat: 29.76,   // Example latitude
-                delta: 0.05,  // Example delta
-                dateRange: '2023-01-01/2023-12-31'  // Example date range
+                lon: lng,  // Use the extracted longitude
+                lat: lat,   // Use the extracted latitude
+                delta: 0.05,  // You can adjust this if needed
+                dateRange: dateRange  // Use the passed dateRange prop
             };
 
             try {
@@ -25,9 +28,8 @@ const MetadataDisplay = () => {
             }
         };
 
-        // Call the function to fetch metadata when the component is mounted
-        fetchMetadata();
-    }, []);
+        fetchMetadata(); // Call the fetch function
+    }, [coordinates, dateRange]); // Add coordinates and dateRange to dependency array
 
     return (
         <div>
