@@ -1,15 +1,20 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import MapboxComponent from "./components/mapbox/MapboxComponent";
 import Toggle from "./components/StateToggle/Toggle";
 import "./App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
+
 // import './components/mapbox/mapbox.css';
 import EmailBoxComponent from "./components/emailBox/emailBoxComponent";
 import DateBox from "./components/dateBox/dateBox";
 import CloudCoverage from './components/LeadTime/LeadTime';
 import LeadTime from './components/LeadTime/LeadTime';
+import CoordinateBar from './components/CoordinateBar/CoordinateBar';
+
 function App() {
   const mapRef = useRef(null);
+  const coordinates = useRef(null);
+
   const handleToggleChange = (selection) => {
     // Hide the div that isn't selected
     const liveDiv = document.getElementById("Live");
@@ -22,12 +27,20 @@ function App() {
       futureDiv.style.display = "block";
     }
   };
+
+  const handleSubmit = (x, y) => {
+    mapRef.current.flyTo({
+      center: [x,y],
+    })
+  };
+
   return (
     <>
       <div id="toggleContainer">
         <Toggle handleToggleChange={handleToggleChange} />
         <div id="Live">
           <DateBox />
+          <CoordinateBar handleSubmit={handleSubmit} />
         </div>
         <div id="Future" style={{ display: "none" }}>
           <EmailBoxComponent />

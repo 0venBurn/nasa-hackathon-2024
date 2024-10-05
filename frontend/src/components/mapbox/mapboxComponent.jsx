@@ -11,7 +11,7 @@ const MapboxComponent = ({ mapRef }) => {
     const map = new mapboxgl.Map({
         container: 'map', // ID of the container element
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-74.5, 40], // Initial position [lng, lat]
+        center: [-6.23, 53.345], // Initial position [lng, lat]
         zoom: 9,
       });
 
@@ -21,6 +21,11 @@ const MapboxComponent = ({ mapRef }) => {
     map.on('style.load', function () {
       map.on('click', function (e) {
         var coordinates = e.lngLat;
+        const formattedCoordinates = `${coordinates.lng}, ${coordinates.lat}`;
+        setCoordinates(formattedCoordinates);
+        // mapCoordBox.innerHTML = `${coordinates.lng}, ${coordinates.lat}`;
+        console.log("Coordinates:", coordinates);
+
         new mapboxgl.Popup()
           .setLngLat(coordinates)
           .setHTML(coordinates)
