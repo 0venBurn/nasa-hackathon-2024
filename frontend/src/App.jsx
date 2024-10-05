@@ -5,6 +5,10 @@ import Toggle from "./components/StateToggle/Toggle";
 import "./App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+
 // import './components/mapbox/mapbox.css';
 import EmailBoxComponent from "./components/emailBox/emailBoxComponent";
 import DateBox from "./components/dateBox/dateBox";
@@ -99,6 +103,13 @@ function App() {
       center: [x, y],
       zoom: 15
     })
+
+    if (mapRef.current.getLayer('square-layer')) {
+      mapRef.current.removeLayer('square-layer');
+      mapRef.current.removeSource('square-source');
+    }
+
+    drawGridAroundPoint(mapRef.current, x, y);
   };
 
 
