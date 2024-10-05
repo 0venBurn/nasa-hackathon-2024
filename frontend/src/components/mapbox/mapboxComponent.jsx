@@ -20,7 +20,11 @@ const MapboxComponent = ({ mapRef, coordinates, setCoordinates, userCoordinates 
 
     map.on('style.load', function () {
       map.on('click', function (e) {
-          var coordinates = e.lngLat;
+        var coordinates = e.lngLat;
+        const formattedCoordinates = `${coordinates.lng}, ${coordinates.lat}`;
+        setCoordinates(formattedCoordinates);
+        // mapCoordBox.innerHTML = `${coordinates.lng}, ${coordinates.lat}`;
+        console.log("Coordinates:", coordinates);
           new mapboxgl.Popup()
               .setLngLat(coordinates)
               .setHTML(`Latitude: ${coordinates.lat}, Longitude: ${coordinates.lng}`)
