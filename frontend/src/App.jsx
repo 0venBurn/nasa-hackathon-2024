@@ -10,14 +10,31 @@ import EmailBoxComponent from './components/emailBox/emailBoxComponent';
 function App() {
 
   const handleToggleChange = (selection) => {
-    console.log(`Selected ${selection}`)
+        
+        // Hide the div that isn't selected
+        const liveDiv = document.getElementById('Live');
+        const futureDiv = document.getElementById('Future');
+
+        if (selection === 'Live') {
+            liveDiv.style.display = 'block';
+            futureDiv.style.display = 'none';
+        } else {
+            liveDiv.style.display = 'none';
+            futureDiv.style.display = 'block';
+        }
   }
 
   return (
     <>
       <div>
-        <Toggle  handleToggleChange={handleToggleChange}/>
-        <EmailBoxComponent />
+        <Toggle handleToggleChange={handleToggleChange} />
+        <div id="Live">
+
+        </div>
+        <div id="Future">
+          <EmailBoxComponent />
+
+        </div>
       </div>
       <div>
           <MapboxComponent />
