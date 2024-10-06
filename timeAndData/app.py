@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, request
+import logging
+import certifi
 import os
 import rasterio as rio
 from rasterio.session import AWSSession
@@ -16,11 +18,19 @@ from datetime import date, timedelta, datetime
 app = Flask(__name__)
 CORS(app)
 
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Set up environment for Windows with proper CA bundle
+os.environ['CURL_CA_BUNDLE'] = certifi.where()
+
 stac_url = 'https://landsatlook.usgs.gov/stac-server'
 LandsatSTAC = Client.open(stac_url)
 
 # Initialize the S3 client
 s3_client = boto3.client('s3', region_name='us-west-2')
+logging.info("Creating AWS Session")
+
 
 # Define the bucket name and prefix (directory) you want to list
 bucket_name = 'usgs-landsat'
@@ -45,6 +55,23 @@ def get_metadata_content(s3_url):
     metadata_content = metadata_object['Body'].read().decode('utf-8')
     
     return metadata_content
+
+@app.route('/list-objects', methods=['GET'])
+def list_objects():
+    # List objects in the bucket using 'Requester Pays'
+    response = s3_client.list_objects_v2(
+        Bucket=bucket_name,
+        Prefix=prefix,
+        RequestPayer='requester'
+    )
+
+    # Check if 'Contents' is in the response (i.e., if objects are found)
+    if 'Contents' in response:
+        # Collect the keys (file paths) in a list
+        object_keys = [obj['Key'] for obj in response['Contents']]
+        return jsonify(object_keys)
+    else:
+        return jsonify({"message": "No objects found in the specified prefix."})
 
 @app.route('/search-scenes', methods=['POST'])
 def search_scenes():
@@ -103,10 +130,9 @@ def search_scenes():
 @app.route('/next-overhead-time', methods=['POST'])
 def next_overhead_time():
     # Extract parameters from the POST request
-    data = request.get_json()
-    lon = data.get('lon')
-    lat = data.get('lat')
-    delta = data.get('delta')
+    lon = float(request.args.get('lon'))
+    lat = float(request.args.get('lat'))
+    delta = float(request.args.get('delta'))
 
     if not all([lon, lat, delta]):
         return jsonify({"error": "Missing parameters: lon, lat, or delta"}), 400
@@ -206,4 +232,4 @@ def next_overhead_time():
     return jsonify(response)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

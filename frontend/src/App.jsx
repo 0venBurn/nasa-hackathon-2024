@@ -21,11 +21,24 @@ import CloudCoverage from "./components/CloudCoverage/CloudCoverage";
 import EmailAPI from "./components/emailAPI/emailAPI";
 
 function App() {
+  const getCurrentDateRange = () => {
+    const today = new Date();
+    const twoWeeksAgo = new Date();
+  
+    // Set the date to two weeks ago
+    twoWeeksAgo.setDate(today.getDate() - 14);
+  
+    // Format the dates as 'YYYY-MM-DD'
+    const formatDate = (date) => date.toISOString().split('T')[0];
+  
+    return `${formatDate(twoWeeksAgo)}/${formatDate(today)}`;
+  };
+
   const mapRef = useRef(null);
   const [coordinates, setCoordinates] = useState(""); // State to store coordinates
   const [clouds, setClouds] = useState(""); // State to store coordinates
   const [userCoordinates, setUserCoordinates] = useState(null); // Store user coordinates
-  const [dateRange, setDateRange] = useState("2024-06-01/2024-06-17"); //to be changed
+  const [dateRange, setDateRange] = useState(getCurrentDateRange());
   const [leadTime, setLeadTime] = useState("");
   const [email, setEmail] = useState("");
 
