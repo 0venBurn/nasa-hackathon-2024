@@ -11,7 +11,9 @@ const Toggle = ({ handleToggleChange }) => {
   };
 
   return (
-    <div className="stateToggle">
+      <div className="stateToggle">
+        <img src="src/assets/logo.jpeg" alt="An outline of a satellite in blue" id="logo"/>
+
       <div style={{ display: "flex" }}>
         <div
           onClick={() => handleClick("Live")}
