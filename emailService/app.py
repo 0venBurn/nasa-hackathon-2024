@@ -107,25 +107,31 @@ def requestEmail():
         daysWarning = data["days"]
         location = data["location"]  # Assuming location is a tuple/list of (lat, lng)
 
+        print(location[0], location[1])
         # Get the satellite arrival datetime
-        satArrive_response = requests.get(
-            "https://landsat.co/data/next-overhead-time", params={"lat": location[0], "lon": location[1], "delta": 0.04}
+        satArrive_response = requests.post(
+            "http://localhost:5001/next-overhead-time", params={"lat": location[0], "lon": location[1], "delta": 0.04}
         )
 
         if satArrive_response.status_code != 200:
             return jsonify({"error": "Failed to get satellite arrival data"}), 500
 
         satArrive_data = satArrive_response.json()
-        satArriveDT_str = satArrive_data.get("datetime")
 
-        if not satArriveDT_str:
+        satArriveDT_str_landsat8 = satArrive_data.get("landsat8NextPassover")
+        satArriveDT_str_landsat9 = satArrive_data.get("landsat9NextPassover")
+
+        if not satArriveDT_str_landsat8 or not satArriveDT_str_landsat9:
             return (
                 jsonify({"error": "Satellite arrival datetime missing in response"}),
                 500,
             )
 
         # Parse the datetime string to a datetime object
-        satArriveDT = parser.isoparse(satArriveDT_str)
+        satArriveDT_8 = parser.isoparse(satArriveDT_str_landsat8)
+        satArriveDT_9 = parser.isoparse(satArriveDT_str_landsat9)
+
+        satArriveDT = min(satArriveDT_8, satArriveDT_9)
 
         # Compute the times for the emails
         firstEmail = satArriveDT - timedelta(days=daysWarning)
