@@ -13,17 +13,18 @@ const LegendComponent = () => {
                 {isLegendVisible ? 'Hide Legend' : 'Show Legend'}
             </button>
             {isLegendVisible && (
-                <div id="legend">
-    <h4>Reflectance</h4>
-            <div className="legend-scale">
-        <div className="color" style={{ background: 'rgba(0, 255, 0, 1)' }}>High levels</div>
-        <div className="color" style={{ background: 'rgba(0, 255, 0, 0.8)' }}></div>
-        <div className="color" style={{ background: 'rgba(0, 255, 0, 0.6)' }}></div>
-        <div className="color" style={{ background: 'rgba(0, 255, 0, 0.4)' }}></div>
-        <div className="color" style={{ background: 'rgba(0, 255, 0, 0.2)' }}></div>
-        <div className="color" style={{ background: 'rgba(0, 255, 0, 0)' }}>Low levels</div>
-    </div>
-                </div>
+               <div id="legend">
+               <h4>Reflectance</h4>
+               <div className="legend-scale">
+                   <div className="color" style={{ background: 'rgba(0, 255, 0, 0)' }}>High levels</div>
+                   <div className="color" style={{ background: 'rgba(0, 255, 0, 0.2)' }}></div>
+                   <div className="color" style={{ background: 'rgba(0, 255, 0, 0.4)' }}></div>
+                   <div className="color" style={{ background: 'rgba(0, 255, 0, 0.6)' }}></div>
+                   <div className="color" style={{ background: 'rgba(0, 255, 0, 0.8)' }}></div>
+                   <div className="color" style={{ background: 'rgba(0, 255, 0, 1)' }}>Low levels</div>
+               </div>
+           </div>
+           
             )}
         </div>
     );
