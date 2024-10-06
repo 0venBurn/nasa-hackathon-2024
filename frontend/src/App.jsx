@@ -183,7 +183,7 @@ function App() {
           {showImage && <DummyGraphs />}
           <MetadataDisplay coordinates={coordinates} dateRange={dateRange} />
           <DownloadButton onClick={handleDownload} />
-         <CompareButton />
+         {/* <CompareButton /> */}
           </div>
         <div id="Future" style={{ display: "none" }}>
           <UserLocation />
