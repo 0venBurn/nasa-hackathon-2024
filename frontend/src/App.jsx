@@ -146,6 +146,14 @@ function App() {
 
   return (
     <>
+      <header className="header">
+  <div className="logo-container">
+    <img src="\src\assets\NASA_logo.svg.png" alt="NASA Logo" className="logo" />
+      <img src="\src\assets\logo.jpeg" alt="Custom Logo for Team Rock Lickers" className="logo" />
+      <h1 className="title">Space Apps 2024</h1>
+  </div>
+</header>
+      <body>
       <div id="toggleContainer">
         <Toggle handleToggleChange={handleToggleChange} />
         <div id="Live">
@@ -193,6 +201,7 @@ function App() {
           drawGridAroundPoint={drawGridAroundPoint}
         />
       </div>
+      </body>
     </>
   );
 }
