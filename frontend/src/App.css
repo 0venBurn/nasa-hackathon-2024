@@ -154,22 +154,25 @@ body, html {
 
 /* Style the footer */
 .footer {
-  background-color: #ece7e7;
-  color: white;
-  text-align: center; /* Center text */
+  background-color: #f5f5f5; /* Background color of the footer */
+  color: #080600; /* Text color */
   position: fixed; /* Fixed position at the bottom */
   width: 100%; /* Ensures full width */
   bottom: 0; /* Aligns to the bottom of the viewport */
   left: 0; /* Aligns to the left edge */
   z-index: 1000; /* Ensures it appears above other elements */
+  padding: 10px; /* Add some padding for better spacing */
+  display: flex; /* Use flexbox to align items */
+  justify-content: flex-end; /* Align items to the right */
 }
 
 /* Apply the NASA-style font */
 .footer-text {
-  font-size: 28px;
-  color: #080600; /* A golden color */
-  letter-spacing: 2px; /* Add space between letters for a sleek look */
-  margin: 0;
+  font-size: 12px; /* Smaller font size */
+  color: #080600; /* Text color */
+  letter-spacing: 1px; /* Add space between letters for a sleek look */
+  margin: 0; /* Remove default margin */
+  padding-right: 20px; /* Optional: add some padding on the right */
 }
 
 #legend {
@@ -199,3 +202,4 @@ body, html {
   justify-content: space-between;
   margin-top: 10px; /* Space between colors and labels */
 }
+

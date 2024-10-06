@@ -28,7 +28,7 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
                 
                 // Check if response data is an empty array
                 if (Array.isArray(response.data) && response.data.length === 0) {
-                    setError('API returned an empty array, loading dummy data.');
+                    // setError('API returned an empty array, loading dummy data.');
                     throw new Error('Empty array'); // Trigger the catch block
                 }
 
@@ -56,7 +56,7 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
     return (
         <div>
             <h2>Landsat Metadata</h2>
-            <div style={{overflowY: "scroll", maxHeight: '150px'}}>
+            <div style={{overflowY: "scroll", maxHeight: '100px'}}>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {metadata ? (
                 <pre>{JSON.stringify(metadata, null, 2)}</pre>  // Display metadata in JSON format

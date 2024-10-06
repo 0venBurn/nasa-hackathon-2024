@@ -23,6 +23,9 @@ import CompareButton from "./components/CompareButton/CompareButton";
 
 import DummyGraphs from './components/metadataDisplay/imageDisplay';
 import LegendComponent from "./components/mapbox/LegendComponent";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css"; 
+
 
 
 function App() {
@@ -178,10 +181,10 @@ function App() {
             coordinates={coordinates}
             setCoordinates={setCoordinates}
           />
-          {/* {showImage && <DummyGraphs />} */}
+          {showImage && <DummyGraphs />}
           <MetadataDisplay coordinates={coordinates} dateRange={dateRange} />
           <DownloadButton onClick={handleDownload} />
-         <CompareButton />
+         {/* <CompareButton /> */}
           </div>
         <div id="Future" style={{ display: "none" }}>
           <UserLocation />
