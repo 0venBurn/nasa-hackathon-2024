@@ -47,7 +47,12 @@ const UserLocation = ({ onSubmit }) => {
     }
 
     return (
-        <div>
+        <div style={{
+            display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center",
+              margin: "1.5rem"
+          }}>
             {/* <h2>Your Location</h2>
             <p>Latitude: {location.lat}</p>
             <p>Longitude: {location.lng}</p> */}

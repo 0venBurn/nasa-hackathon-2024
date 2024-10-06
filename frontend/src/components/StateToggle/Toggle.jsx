@@ -12,7 +12,11 @@ const Toggle = ({ handleToggleChange }) => {
 
   return (
     <div className="stateToggle">
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center",
+          gap: "4rem",
+          margin: "1.5rem" }}>
         <button
           onClick={() => handleClick("Live")}
             style={{

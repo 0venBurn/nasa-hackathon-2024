@@ -7,7 +7,13 @@ const DateBox = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     return (
-      <>
+      <div style={{
+        display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center",
+          gap: "1rem",
+          margin: "1.5rem"
+      }}>
             <DatePicker
                 showIcon
           selected={startDate}
@@ -25,7 +31,7 @@ const DateBox = () => {
           endDate={endDate}
           minDate={startDate}
         />
-      </>
+      </div>
     );
   };
 
