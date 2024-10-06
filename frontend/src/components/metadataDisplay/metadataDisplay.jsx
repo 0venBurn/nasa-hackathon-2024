@@ -56,12 +56,15 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
     return (
         <div>
             <h2>Landsat Metadata</h2>
+            <div style={{overflowY: "scroll", maxHeight: '150px'}}>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {metadata ? (
                 <pre>{JSON.stringify(metadata, null, 2)}</pre>  // Display metadata in JSON format
             ) : (
                 <p>Loading metadata...</p>
             )}
+
+            </div>
         </div>
     );
 };
