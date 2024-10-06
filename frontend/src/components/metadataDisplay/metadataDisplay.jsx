@@ -60,7 +60,7 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
             {metadata ? (
                 <pre>{JSON.stringify(metadata, null, 2)}</pre>  // Display metadata in JSON format
             ) : (
-                <p>Loading metadata...</p>
+                <p>Enter location...</p>
             )}
         </div>
     );

@@ -4,8 +4,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 const DateBox = () => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+  const today = new Date()
+  const twoWeeksAgo = new Date().setDate(today.getDate() - 14)
+    // const {today, twoWeeksAgo} = getCurrentDateRange()
+    const [startDate, setStartDate] = useState(twoWeeksAgo);
+    const [endDate, setEndDate] = useState(today);
     return (
       <div style={{
         display: "flex", 

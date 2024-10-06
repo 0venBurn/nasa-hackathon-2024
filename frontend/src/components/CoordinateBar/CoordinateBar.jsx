@@ -26,11 +26,26 @@ const CoordinateBar = ({ handleSubmit, coordinates, setCoordinates }) => {
     };
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <label>
-                    Coordinates (Longitude, Latitude):
+        <div style={{
+            display: "flex", 
+            flexDirection: "column",
+              justifyContent: "center", 
+              alignItems: "center",
+              gap: "1rem",
+              margin: "1.5rem"
+          }}>
+            <form onSubmit={onSubmit} style={{
+            display: "flex", 
+            flexDirection: "column",
+              justifyContent: "center", 
+              alignItems: "center",
+              gap: "1rem",
+              margin: "1.5rem"
+          }}>
+                <label style={{display: 'block', textAlign: 'center'}}>
+                    Coordinates (Longitude, Latitude)
                     <input
+                    style={{display: 'block', width: '100%'}}
                         type="text"
                         value={coordinates}
                         onChange={(e) => setCoordinates(e.target.value)} // Allow manual input
