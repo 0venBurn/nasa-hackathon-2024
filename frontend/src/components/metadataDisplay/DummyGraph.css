@@ -13,7 +13,7 @@
   .dummyGraph-img {
     width: 100%; /* Make image responsive */
     height: auto; /* Maintain aspect ratio */
-    max-height: 200px; /* Limit height */
+    max-height: 150px; /* Limit height */
     border-radius: 8px; /* Optional: Rounded corners */
   }
   
