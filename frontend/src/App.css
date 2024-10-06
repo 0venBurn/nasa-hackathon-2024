@@ -66,3 +66,8 @@
     border: 3px solid red;  
 }
 
+#leadTime{
+  padding: 1%;
+  padding-left: 10px;
+  padding-right: 10px;
+}

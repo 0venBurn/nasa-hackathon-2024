@@ -167,7 +167,6 @@ function App() {
             setCoordinates={setCoordinates}
           />
           <EmailBoxComponent email={email} setEmail={setEmail} />
-          <p>Lead Time</p>
           <LeadTime />
           <CloudCoverage
             clouds={clouds}

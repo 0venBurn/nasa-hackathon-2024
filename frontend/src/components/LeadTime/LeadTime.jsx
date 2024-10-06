@@ -20,7 +20,7 @@ const LeadTime = ({ leadTime, setLeadTime }) => {
     const selectedValue = values.find(option => option.value === leadTime);
 
     return (
-        <Select 
+        <Select id='leadTime'
             options={values} 
             placeholder='Lead time' 
             value={selectedValue} // Set the selected value
