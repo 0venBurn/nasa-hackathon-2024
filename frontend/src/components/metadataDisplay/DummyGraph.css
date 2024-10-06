@@ -1,0 +1,19 @@
+/* DummyGraphs.css */
+.dummyGraph-container {
+    width: 300px; /* Set your desired width for the carousel */
+    margin: auto; /* Center the carousel */
+  }
+  
+  .dummyGraph-slide {
+    display: flex; /* Center the image */
+    justify-content: center; /* Center the image horizontally */
+    align-items: center; /* Center the image vertically */
+  }
+  
+  .dummyGraph-img {
+    width: 100%; /* Make image responsive */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 200px; /* Limit height */
+    border-radius: 8px; /* Optional: Rounded corners */
+  }
+  
