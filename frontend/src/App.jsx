@@ -22,6 +22,7 @@ import EmailAPI from "./components/emailAPI/emailAPI";
 import CompareButton from "./components/CompareButton/CompareButton";
 
 import DummyGraphs from './components/metadataDisplay/imageDisplay';
+import LegendComponent from "./components/mapbox/LegendComponent";
 
 
 function App() {
@@ -223,7 +224,12 @@ function App() {
           coordinates={coordinates}
           setCoordinates={setCoordinates}
           drawGridAroundPoint={drawGridAroundPoint}
-        />
+          />
+          <LegendComponent />
+
+          
+       
+          
       </div>
       </body>
       <footer className="footer">

@@ -171,3 +171,31 @@ body, html {
   letter-spacing: 2px; /* Add space between letters for a sleek look */
   margin: 0;
 }
+
+#legend {
+  background: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  position: absolute;
+  top: 50px; /* Adjust this for positioning */
+  right: 10px; /* Adjust this for positioning */
+  z-index: 1000; /* Ensure it's above the map */
+  width: 90px; /* Set a fixed width */
+}
+
+.legend-scale {
+  display: flex;
+  flex-direction: column;
+  height: 120px; /* Adjust height */
+}
+
+.color {
+  width: 100%;
+  height: 20%; /* Adjust for the number of colors */
+}
+
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px; /* Space between colors and labels */
+}
