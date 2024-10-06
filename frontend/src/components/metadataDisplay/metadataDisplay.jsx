@@ -28,7 +28,7 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
                 
                 // Check if response data is an empty array
                 if (Array.isArray(response.data) && response.data.length === 0) {
-                    setError('API returned an empty array, loading dummy data.');
+                    // setError('API returned an empty array, loading dummy data.');
                     throw new Error('Empty array'); // Trigger the catch block
                 }
 

@@ -22,6 +22,9 @@ import EmailAPI from "./components/emailAPI/emailAPI";
 import CompareButton from "./components/CompareButton/CompareButton";
 
 import DummyGraphs from './components/metadataDisplay/imageDisplay';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css"; 
+
 
 
 function App() {
@@ -177,7 +180,7 @@ function App() {
             coordinates={coordinates}
             setCoordinates={setCoordinates}
           />
-          {/* {showImage && <DummyGraphs />} */}
+          {showImage && <DummyGraphs />}
           <MetadataDisplay coordinates={coordinates} dateRange={dateRange} />
           <DownloadButton onClick={handleDownload} />
          <CompareButton />
