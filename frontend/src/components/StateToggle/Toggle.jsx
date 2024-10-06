@@ -13,31 +13,33 @@ const Toggle = ({ handleToggleChange }) => {
   return (
     <div className="stateToggle">
       <div style={{ display: "flex" }}>
-        <div
+        <button
           onClick={() => handleClick("Live")}
-          style={{
-            cursor: "pointer",
+            style={{
+              cursor: "pointer",
             padding: "10px 20px",
-            backgroundColor: selected === "Live" ? "#ddd" : "#fff",
+            backgroundColor: selected === "Live" ? "#1a1a1a" : "#fff",
+            color: selected === "Live" ? "#fff" : "#1a1a1a",
             border: selected === "Live" ? "2px solid #000" : "2px solid #ccc",
             borderRadius: "4px",
             marginRight: "10px",
           }}
         >
           Live
-        </div>
-        <div
+        </button>
+        <button
           onClick={() => handleClick("Future")}
           style={{
             cursor: "pointer",
             padding: "10px 20px",
-            backgroundColor: selected === "Future" ? "#ddd" : "#fff",
+            backgroundColor: selected === "Future" ? "#1a1a1a" : "#fff",
+            color: selected === "Future" ? "#fff" : "#1a1a1a",
             border: selected === "Future" ? "2px solid #000" : "2px solid #ccc",
             borderRadius: "4px",
           }}
         >
           Future
-        </div>
+        </button>
       </div>
     </div>
   );
