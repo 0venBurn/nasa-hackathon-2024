@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-const EmailAPI = ({email, leadTime, cloudCoverage, location} ) => {
+const EmailAPI = ({email, days, location} ) => {
 
   const handleFetch = async () => {
     const data = {
         email,
-      leadTime,
-        cloudCoverage,
+        days,
         location
     };
 
