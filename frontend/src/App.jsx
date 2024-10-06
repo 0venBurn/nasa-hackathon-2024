@@ -19,6 +19,7 @@ import UserLocation from "./components/userLocation/userLocation";
 import DownloadButton from "./components/downloadButton/downloadButton";
 import CloudCoverage from "./components/CloudCoverage/CloudCoverage";
 import EmailAPI from "./components/emailAPI/emailAPI";
+import CompareButton from "./components/CompareButton/CompareButton";
 
 function App() {
   const mapRef = useRef(null);
@@ -164,7 +165,8 @@ function App() {
           />
           <MetadataDisplay coordinates={coordinates} dateRange={dateRange} />
           <DownloadButton onClick={handleDownload} />
-        </div>
+         <CompareButton />
+          </div>
         <div id="Future" style={{ display: "none" }}>
           <UserLocation />
           <CoordinateBar
@@ -200,6 +202,9 @@ function App() {
         />
       </div>
       </body>
+      <footer className="footer">
+  <h1 className="footer-text">Rock Lickers Inc.</h1>
+</footer>
     </>
   );
 }

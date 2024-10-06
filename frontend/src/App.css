@@ -99,6 +99,10 @@ button:active {
   transform: translateY(2px); /* Move button down slightly */
 }
 
+h1{
+  letter-spacing: 3px;
+}
+
 
 
 
@@ -146,4 +150,24 @@ body, html {
 #toggleContainer,
 #mapContainer {
   margin-top: 80px; /* Adjust to match the header height */
+}
+
+/* Style the footer */
+.footer {
+  background-color: #ece7e7;
+  color: white;
+  text-align: center; /* Center text */
+  position: fixed; /* Fixed position at the bottom */
+  width: 100%; /* Ensures full width */
+  bottom: 0; /* Aligns to the bottom of the viewport */
+  left: 0; /* Aligns to the left edge */
+  z-index: 1000; /* Ensures it appears above other elements */
+}
+
+/* Apply the NASA-style font */
+.footer-text {
+  font-size: 28px;
+  color: #080600; /* A golden color */
+  letter-spacing: 2px; /* Add space between letters for a sleek look */
+  margin: 0;
 }
