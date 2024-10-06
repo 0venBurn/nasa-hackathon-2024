@@ -20,6 +20,9 @@ import DownloadButton from "./components/downloadButton/downloadButton";
 import CloudCoverage from "./components/CloudCoverage/CloudCoverage";
 import EmailAPI from "./components/emailAPI/emailAPI";
 
+import DummyGraphs from './components/metadataDisplay/imageDisplay';
+
+
 function App() {
   const mapRef = useRef(null);
   const [coordinates, setCoordinates] = useState(""); // State to store coordinates
@@ -28,6 +31,7 @@ function App() {
   const [dateRange, setDateRange] = useState("2024-06-01/2024-06-17"); //to be changed
   const [leadTime, setLeadTime] = useState("");
   const [email, setEmail] = useState("");
+  const [showImage, setShowImage] = useState(false);
 
   const handleToggleChange = (selection) => {
     const liveDiv = document.getElementById("Live");
@@ -137,6 +141,7 @@ function App() {
 
     // Set the coordinates when submitted
     setCoordinates(`${x}, ${y}`);
+    setShowImage(true); //show dummy image
   };
 
   const handleDownload = () => {
@@ -164,6 +169,7 @@ function App() {
             coordinates={coordinates}
             setCoordinates={setCoordinates}
           />
+          {showImage && <DummyGraphs />}
           <MetadataDisplay coordinates={coordinates} dateRange={dateRange} />
           <DownloadButton onClick={handleDownload} />
         </div>

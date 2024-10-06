@@ -1,11 +1,11 @@
-import dummyGraphs from './assets/images/dummyGraph.jpg';
+import graph1 from '../../assets/dummyGraphs.jpeg';
 
-function MyComponent() {
+function DummyGraphs() {
   return (
     <div>
-      <img src={dummyGraphs} alt="Description" />
+      <img src={graph1} alt="Description" />
     </div>
   );
 }
 
-export default MyComponent;
+export default DummyGraphs;
