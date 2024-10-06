@@ -65,3 +65,37 @@
     z-index: 0;
     border: 3px solid red;  
 }
+
+#leadTime{
+  padding: 1%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+button {
+  background-color: #d0ded1; /* Green background */
+  color: rgb(39, 81, 141); /* White text */
+  border: none; /* Remove borders */
+  padding: 12px 24px; /* Add padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make button an inline block */
+  font-size: 16px; /* Set font size */
+  margin: 4px 2px; /* Small margin */
+  transition-duration: 0.4s; /* Smooth transition */
+  cursor: pointer; /* Pointer on hover */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2); /* Add shadow */
+}
+
+button:hover {
+  background-color: white; /* White background on hover */
+  color: black; /* Black text on hover */
+  border: 2px solid #4CAF50; /* Green border on hover */
+}
+
+button:active {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2); /* Shadow when clicked */
+  transform: translateY(2px); /* Move button down slightly */
+}
+

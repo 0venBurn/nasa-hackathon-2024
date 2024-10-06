@@ -22,12 +22,31 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
         
 
             try {
+                // Attempt to fetch data from the API
                 const response = await axios.post('http://127.0.0.1:5000/search-scenes', data);
-                setMetadata(response.data);
-                console.log(response.data);
+                console.log('Response received:', response.data);
+                
+                // Check if response data is an empty array
+                if (Array.isArray(response.data) && response.data.length === 0) {
+                    setError('API returned an empty array, loading dummy data.');
+                    throw new Error('Empty array'); // Trigger the catch block
+                }
+
+                setMetadata(response.data); // Set metadata if the response is not empty
             } catch (err) {
                 setError('Failed to fetch metadata');
                 console.error(err);
+            
+                try {
+                    const dummyResponse = await axios.get('/metadataDummy.txt');
+                    setMetadata(dummyResponse.data);
+                    console.log('Dummy data loaded:', dummyResponse.data);
+                } catch (dummyErr) {
+                    console.error('Error fetching dummy data:', dummyErr);
+                    setError('Failed to load dummy metadata');
+                }
+            } finally {
+                setLoading(false); // Set loading to false regardless of success or failure
             }
         };
 
@@ -37,12 +56,15 @@ const MetadataDisplay = ({ coordinates, dateRange }) => {
     return (
         <div>
             <h2>Landsat Metadata</h2>
+            <div style={{overflowY: "scroll", maxHeight: '150px'}}>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {metadata ? (
                 <pre>{JSON.stringify(metadata, null, 2)}</pre>  // Display metadata in JSON format
             ) : (
                 <p>Loading metadata...</p>
             )}
+
+            </div>
         </div>
     );
 };

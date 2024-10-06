@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flask,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,react
 
+emailService/testapp.py
+
 ### Flask ###
 instance/*
 !instance/.gitignore
@@ -183,3 +185,10 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/flask,react
+test.py
+testapp.py
+test3.py
+emailService/test.py
+
+emailService/testapp.py
+emailService/test3.py
