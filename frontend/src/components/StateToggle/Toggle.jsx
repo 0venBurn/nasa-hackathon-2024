@@ -11,7 +11,7 @@ const Toggle = ({ handleToggleChange }) => {
   };
 
   return (
-    <div className="stateToggle">
+      <div className="stateToggle">
       <div style={{ display: "flex" }}>
         <div
           onClick={() => handleClick("Live")}
