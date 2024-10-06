@@ -37,6 +37,19 @@ const Toggle = ({ handleToggleChange }) => {
           }}
         >
           Future
+              </div>
+              <div
+          onClick={() => handleClick("Compare")}
+          style={{
+            cursor: "pointer",
+            padding: "10px 20px",
+            backgroundColor: selected === "Compare" ? "#ddd" : "#fff",
+            border: selected === "Compare" ? "2px solid #000" : "2px solid #ccc",
+            borderRadius: "4px",
+            marginLeft: "10px",
+          }}
+        >
+          Compare
         </div>
       </div>
     </div>

@@ -37,12 +37,21 @@ function App() {
   const handleToggleChange = (selection) => {
     const liveDiv = document.getElementById("Live");
     const futureDiv = document.getElementById("Future");
+    const compareDiv = document.getElementById("Compare");
+
     if (selection === "Live") {
       liveDiv.style.display = "block";
       futureDiv.style.display = "none";
+      compareDiv.style.display = "none"
+    }
+    else if (selection === "Compare"){
+      liveDiv.style.display = "none";
+      futureDiv.style.display = "none";
+      compareDiv.style.display = "block"
     } else {
       liveDiv.style.display = "none";
       futureDiv.style.display = "block";
+      compareDiv.style.display = "none"
     }
   };
 
@@ -160,7 +169,7 @@ function App() {
       <body>
       <div id="toggleContainer">
         <Toggle handleToggleChange={handleToggleChange} />
-        <div id="Live">
+        <div id="Live" >
           <DateBox />
           <UserLocation onSubmit={handleLocationSubmit} />
           <CoordinateBar
@@ -196,7 +205,16 @@ function App() {
             cloudCoverage={clouds}
             location={coordinates}
           />
-        </div>
+          </div>
+          <div id="Compare" style={{display: "none"}}>
+          <UserLocation />
+          <CoordinateBar
+            handleSubmit={handleSubmit}
+            coordinates={coordinates}
+            setCoordinates={setCoordinates}
+            />
+            <CompareButton />
+          </div>
       </div>
       <div id="mapContainer">
         <MapboxComponent
