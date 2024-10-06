@@ -147,11 +147,9 @@ function App() {
   return (
     <>
       <header className="header">
-  <div className="logo-container">
     <img src="\src\assets\NASA_logo.svg.png" alt="NASA Logo" className="logo" />
-      <img src="\src\assets\logo.jpeg" alt="Custom Logo for Team Rock Lickers" className="logo" />
       <h1 className="title">Space Apps 2024</h1>
-  </div>
+      <img src="\src\assets\logo.jpeg" alt="Custom Logo for Team Rock Lickers" className="logo" />
 </header>
       <body>
       <div id="toggleContainer">

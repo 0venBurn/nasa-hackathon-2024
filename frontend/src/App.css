@@ -122,21 +122,13 @@ button:active {
 .logo-container {
   display: flex;
   align-items: center;
+  justify-content: center; /* Horizontally centers items */
 }
 
 .logo {
   height: 60px;
   margin-right: 20px;
-}
-
-.custom-logo {
-  display: flex;
   align-items: center;
-}
-
-.custom-logo-img {
-  height: 50px;
-  margin-right: 10px;
 }
 
 .title {
