@@ -169,7 +169,7 @@ function App() {
             coordinates={coordinates}
             setCoordinates={setCoordinates}
           />
-          {showImage && <DummyGraphs />}
+          {/* {showImage && <DummyGraphs />} */}
           <MetadataDisplay coordinates={coordinates} dateRange={dateRange} />
           <DownloadButton onClick={handleDownload} />
         </div>
